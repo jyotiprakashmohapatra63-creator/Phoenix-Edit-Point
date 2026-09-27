@@ -1,0 +1,2129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phoenix Edit Point - Entry Form</title>
+    <meta name="theme-color" content="#0b0f19">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" href="assets/branding/app-icon.svg" type="image/svg+xml">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            gap: 40px;
+        }
+
+        .main-wrapper {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .sidebar-section {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .panel-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .panel-title {
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 2px;
+        }
+
+        .cyber-btn {
+            background: linear-gradient(135deg, #0a2533 0%, #0c3542 100%);
+            color: #ffffff;
+            border: 1px solid #00bcd4;
+            padding: 12px 24px;
+            font-size: 15px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            cursor: pointer;
+            text-align: center;
+            position: relative;
+            box-shadow: inset 0 0 10px rgba(0, 188, 212, 0.3), 0 0 10px rgba(0, 188, 212, 0.2);
+            clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+        }
+
+        .cyber-btn:hover {
+            background: linear-gradient(135deg, #0c3542 0%, #164f60 100%);
+            border-color: #00e676;
+            box-shadow: inset 0 0 15px rgba(0, 230, 118, 0.5), 0 0 15px rgba(0, 230, 118, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .cyber-btn.balance-sheet {
+            border-color: #00bcd4;
+            box-shadow: inset 0 0 10px rgba(0, 188, 212, 0.4);
+        }
+
+        .cyber-btn.monthly-saving {
+            border-color: #a855f7;
+            background: linear-gradient(135deg, #23123b 0%, #3b185e 100%);
+            box-shadow: inset 0 0 10px rgba(168, 85, 247, 0.4);
+        }
+        .cyber-btn.monthly-saving:hover {
+            border-color: #d946ef;
+            box-shadow: inset 0 0 15px rgba(217, 70, 239, 0.6);
+        }
+
+        .cyber-btn.app-data {
+            border-color: #00e676;
+            background: linear-gradient(135deg, #0a331c 0%, #0c4d29 100%);
+            box-shadow: inset 0 0 10px rgba(0, 230, 118, 0.4);
+        }
+        .cyber-btn.app-data:hover {
+            border-color: #10b981;
+            box-shadow: inset 0 0 15px rgba(16, 185, 129, 0.6);
+        }
+
+        .form-container {
+            width: 400px;
+            background: #121824;
+            border: 1px solid #374151;
+            box-shadow: 2px 2px 15px rgba(0,0,0,0.5);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .header {
+            background-color: #0b0f19;
+            text-align: center;
+            padding: 20px;
+            border-bottom: 1px solid #374151;
+        }
+        
+        .brand-title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            display: flex;
+            justify-content: center;
+            gap: 3px;
+        }
+
+        .brand-title span {
+            display: inline-block;
+            background: linear-gradient(270deg, #ff5252, #ffeb3b, #00e676, #00bcd4, #e040fb, #ff5252);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textGradient 5s ease infinite, smoothWave 2.5s ease-in-out infinite;
+            animation-delay: calc(0.08s * var(--i));
+        }
+
+        @keyframes textGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes smoothWave {
+            0%, 100% { transform: translateY(0) scale(1); filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
+            50% { transform: translateY(-5px) scale(1.06); filter: drop-shadow(0 6px 12px rgba(0,230,118,0.4)); }
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #374151;
+            padding: 8px 12px;
+            text-align: left;
+            font-size: 14px;
+        }
+        th {
+            background-color: #1a2332;
+            color: #ffffff;
+            width: 40%;
+        }
+        td {
+            width: 60%;
+            background-color: #121824;
+        }
+        select, input[type="text"], input[type="date"] {
+            width: 100%;
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 14px;
+            color: #ffffff;
+            box-sizing: border-box;
+            padding: 4px;
+            border-radius: 3px;
+        }
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+        }
+        .submit-container {
+            text-align: center;
+            padding: 25px;
+            background-color: #121824;
+        }
+        
+        .submit-btn-wrapper {
+            position: relative;
+            display: inline-block;
+            border-radius: 10px;
+            padding: 3px;
+            overflow: hidden;
+        }
+
+        .submit-btn-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, #ff5252, #ffeb3b, #00e676, #00bcd4, #e040fb, #ff5252);
+            animation: rotateLight 3s linear infinite;
+        }
+
+        @keyframes rotateLight {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .submit-btn {
+            background-color: #0c3542;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 12px 40px;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            letter-spacing: 1px;
+            display: block;
+            position: relative;
+            z-index: 1;
+            transition: background-color 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #164f60;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: #0b0f19;
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid #374151;
+            width: 400px;
+            box-sizing: border-box;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            color: #9aa0a6;
+            font-size: 22px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .close-modal:hover {
+            color: #fff;
+        }
+
+        .modal-body h3 { 
+            margin-top: 0; 
+            font-size: 16px; 
+            font-weight: 600; 
+            text-align: center; 
+            margin-bottom: 20px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 8px;
+            color: #00bcd4;
+        }
+        
+        .input-wrapper {
+            position: relative;
+            width: 100%;
+            margin-bottom: 15px;
+            border-radius: 50px;
+            overflow: hidden;
+            padding: 2px;
+            background: #1f2937;
+            box-sizing: border-box;
+        }
+
+        .input-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent 35%, #ff3366 50%, #ffcc00 65%, #33cc33 80%, #3399ff 92%, #9933ff 100%);
+            animation: smoothLoop 3s linear infinite;
+        }
+
+        @keyframes smoothLoop {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        input[type="password"] { 
+            position: relative;
+            width: 100%; 
+            padding: 12px 15px; 
+            font-size: 14px; 
+            border: none; 
+            border-radius: 50px; 
+            background: #121824;
+            color: #ffffff;
+            text-align: center; 
+            outline: none;
+            box-sizing: border-box;
+            z-index: 1;
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .modal-btn { 
+            position: relative;
+            background: linear-gradient(270deg, #1a73e8, #4285f4, #00c853, #ff6d00, #1a73e8);
+            background-size: 400% 400%;
+            color: white; 
+            border: none; 
+            padding: 14px 20px; 
+            font-size: 14px; 
+            font-weight: 600;
+            border-radius: 25px; 
+            cursor: pointer; 
+            width: 100%;
+            outline: none;
+            box-sizing: border-box;
+            z-index: 1;
+            box-shadow: 0 4px 15px rgba(26, 115, 232, 0.3);
+            animation: gradientAnimation 6s ease infinite;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .modal-btn:hover { 
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 8px 25px rgba(26, 115, 232, 0.45);
+        }
+
+        .toggle-link {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 13px;
+        }
+
+        .toggle-link a {
+            color: #4285f4;
+            text-decoration: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .toggle-link a:hover {
+            text-decoration: underline;
+        }
+
+        .hidden { display: none; }
+        #msg { color: #ff5252; font-size: 12px; text-align: center; margin-top: 10px; height: 15px; }
+        #success-msg { color: #00e676; font-size: 12px; text-align: center; margin-top: 10px; height: 15px; }
+
+        #dynamicSheetModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .sheet-ui-container {
+            width: 1920px;
+            max-width: 98vw;
+            height: 1080px;
+            max-height: 95vh;
+            background: #121824;
+            border: 1px solid #374151;
+            border-radius: 8px;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.8);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            animation: fadeInContainer 0.8s ease-in-out;
+            position: relative;
+        }
+
+        @keyframes fadeInContainer {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .sheet-header {
+            background-color: #0b0f19;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #374151;
+            position: relative;
+            flex-shrink: 0;
+            z-index: 20;
+        }
+
+        .sheet-header h2 {
+            margin: 0;
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            background: linear-gradient(270deg, #ff5252, #ffeb3b, #00e676, #00bcd4, #e040fb, #ff5252);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textGradient 5s ease infinite, headerPulse 2.5s ease-in-out infinite;
+        }
+
+        @keyframes headerPulse {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
+            50% { transform: scale(1.02); filter: drop-shadow(0 4px 8px rgba(0,188,212,0.4)); }
+        }
+
+        .close-sheet-btn {
+            position: absolute;
+            top: 18px;
+            right: 25px;
+            color: #9aa0a6;
+            font-size: 28px;
+            cursor: pointer;
+            font-weight: bold;
+            z-index: 30;
+            pointer-events: auto;
+        }
+        .close-sheet-btn:hover {
+            color: #fff;
+        }
+
+        .table-responsive {
+            overflow: auto;
+            flex-grow: 1;
+            width: 100%;
+        }
+
+        .balance-sheet-table {
+            width: 100%;
+            border-collapse: collapse;
+            white-space: nowrap;
+        }
+
+        .balance-sheet-table th {
+            background-color: #f39c12;
+            color: #000000;
+            font-weight: bold;
+            padding: 16px 20px;
+            text-align: left;
+            border: 1px solid #374151;
+            font-size: 16px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .balance-sheet-table td {
+            padding: 15px 20px;
+            border: 1px solid #374151;
+            color: #ffffff;
+            background-color: #121824;
+            font-size: 15px;
+        }
+
+        .balance-sheet-table tr:hover td {
+            background-color: #1a2332;
+        }
+
+        .income-val {
+            color: #00e676 !important;
+            font-weight: bold;
+        }
+
+        .expense-val {
+            color: #ff5252 !important;
+            font-weight: bold;
+        }
+
+        .balance-positive {
+            color: #00e676 !important;
+            font-weight: bold;
+        }
+
+        .balance-negative {
+            color: #ff5252 !important;
+            font-weight: bold;
+        }
+
+        .badge {
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: bold;
+            display: inline-block;
+            color: white;
+        }
+
+        .badge.phonepe {
+            background-color: #27ae60;
+        }
+
+        .badge.navi {
+            background-color: #990000;
+        }
+
+        /* --- MAA TARINI STUDIO MODAL STYLES --- */
+        #studioModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .studio-card-modal {
+            width: 100%;
+            max-width: 1100px;
+            max-height: 90vh;
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.8);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .banner-title {
+            background-color: transparent;
+            text-align: center;
+            padding: 16px 10px;
+            font-size: 32px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            background: linear-gradient(135deg, #38bdf8, #818cf8, #c084fc, #f472b6);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: colorShift 4s ease infinite alternate, textGlow 2.5s infinite alternate ease-in-out;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        @keyframes colorShift {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        @keyframes textGlow {
+            from {
+                filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.4));
+                transform: scale(1);
+            }
+            to {
+                filter: drop-shadow(0 0 18px rgba(192, 132, 252, 0.8));
+                transform: scale(1.02);
+            }
+        }
+
+        .studio-table-container {
+            width: 100%;
+            overflow: auto;
+            flex-grow: 1;
+        }
+
+        .studio-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .studio-table th {
+            background-color: #f59e0b;
+            color: #000000;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 12px 14px;
+            border: 1px solid #d97706;
+            white-space: nowrap;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .studio-table td {
+            padding: 10px 14px;
+            border: 1px solid #30363d;
+            font-size: 14px;
+            white-space: nowrap;
+            background-color: #161b22;
+            color: #e6edf3;
+        }
+
+        .studio-table tr:hover td {
+            background-color: #21262d;
+        }
+
+        .dropdown-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: space-between;
+            min-width: 110px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 500;
+            border: 1px solid transparent;
+        }
+
+        .status-green {
+            background-color: #0f5132;
+            color: #75b798;
+            border-color: #146c43;
+        }
+
+        .status-purple {
+            background-color: #3d0a91;
+            color: #d8b4fe;
+            border-color: #581c87;
+        }
+
+        .status-red {
+            background-color: #842029;
+            color: #ea868f;
+            border-color: #b02a37;
+        }
+
+        .status-default {
+            background-color: #374151;
+            color: #ffffff;
+            border-color: #4b5563;
+        }
+
+        .arrow-icon {
+            font-size: 10px;
+            margin-left: 6px;
+            opacity: 0.7;
+        }
+
+        .loading-text {
+            text-align: center;
+            padding: 20px;
+            color: #f59e0b;
+            font-size: 16px;
+        }
+
+        /* --- APP DATA MODAL STYLES --- */
+        #appDataModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .app-badge {
+            display: inline-block;
+            width: 100%;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            text-align: center;
+            color: #000;
+        }
+
+        .bg-phonepe { background-color: #4d82f3; color: #fff; }
+        .bg-gpay { background-color: #ff9800; color: #000; }
+        .bg-paytm { background-color: #d32f2f; color: #fff; }
+        .bg-cash { background-color: #00e5ff; color: #000; }
+        .bg-netbanking { background-color: #ff00ff; color: #000; }
+        .bg-navi { background-color: #8e8e8e; color: #fff; }
+        .bg-bhim { background-color: #4d82f3; color: #fff; }
+        .bg-default { background-color: #374151; color: #fff; }
+
+        .balance-header {
+            background-color: #ff0000 !important;
+            color: #ffffff !important;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .balance-value {
+            background-color: #00ff00 !important;
+            color: #000000 !important;
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .total-row td {
+            font-weight: bold;
+            background-color: #0d1117;
+        }
+
+        /* Direct inline editing: click the value itself, edit, then press Enter
+           or click outside the cell. No per-row Edit/Delete buttons are used. */
+        .editable-cell {
+            cursor: text;
+            outline: none;
+            transition: background-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .editable-cell:hover {
+            background-color: #263244 !important;
+        }
+
+        .editable-cell:focus {
+            background-color: #111827 !important;
+            box-shadow: inset 0 0 0 2px #38bdf8;
+        }
+
+        .editable-cell[data-saving="true"] {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .inline-edit-select {
+            width: 100%;
+            min-width: 112px;
+            padding: 4px 24px 4px 8px;
+            border-radius: 4px;
+            border: 1px solid transparent;
+            font: inherit;
+            font-weight: 500;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .inline-edit-select:focus {
+            box-shadow: 0 0 0 2px #38bdf8;
+        }
+
+        .inline-edit-select[data-saving="true"] {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        #inlineSaveNotice {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            z-index: 5000;
+            display: none;
+            max-width: 300px;
+            padding: 10px 14px;
+            border-radius: 6px;
+            background: #0f5132;
+            color: #ffffff;
+            font-weight: bold;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+        }
+
+        #inlineSaveNotice.error {
+            background: #842029;
+        }
+
+        /* App controls and adaptive layout (phone, tablet, desktop). */
+        .brand-logo {
+            display: block;
+            width: 58px;
+            height: 58px;
+            margin: 0 auto 10px;
+            object-fit: contain;
+        }
+
+        .app-actions, .modal-toolbar {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 14px;
+        }
+
+        .modal-toolbar {
+            margin: 0;
+            padding: 0 54px 14px 12px;
+        }
+
+        .utility-btn {
+            appearance: none;
+            border: 1px solid #38bdf8;
+            border-radius: 6px;
+            background: #102b3a;
+            color: #ffffff;
+            cursor: pointer;
+            font: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: .3px;
+            padding: 8px 12px;
+        }
+
+        .utility-btn:hover, .utility-btn:focus-visible {
+            background: #164f60;
+            border-color: #00e676;
+            outline: none;
+        }
+
+        @media (max-width: 840px) {
+            body {
+                align-items: flex-start;
+                padding: 16px;
+                box-sizing: border-box;
+            }
+
+            .main-wrapper {
+                width: min(100%, 560px);
+                gap: 18px;
+            }
+
+            .sidebar-section {
+                width: 100%;
+                gap: 18px;
+            }
+
+            .panel-group {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 10px;
+            }
+
+            .panel-title {
+                grid-column: 1 / -1;
+            }
+
+            .cyber-btn {
+                padding: 12px 10px;
+                font-size: 13px;
+            }
+
+            .form-container {
+                width: 100%;
+            }
+
+            .sheet-ui-container, .studio-card-modal {
+                max-width: 100%;
+                max-height: 92vh;
+            }
+
+            #dynamicSheetModal, #studioModal, #appDataModal {
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body { padding: 9px; }
+            .main-wrapper { gap: 12px; }
+            .panel-group { grid-template-columns: 1fr; }
+            .brand-title { font-size: clamp(18px, 6vw, 24px); letter-spacing: 1px; }
+            .header { padding: 16px 10px; }
+            th, td { padding: 8px; font-size: 13px; }
+            th { width: 42%; }
+            .submit-container { padding: 18px 12px; }
+            .submit-btn { width: 100%; padding: 12px 18px; font-size: 17px; }
+            .submit-btn-wrapper { display: block; }
+            .modal-content { width: calc(100vw - 20px); padding: 24px 18px; }
+            .sheet-header { padding: 14px 45px 10px 10px; }
+            .sheet-header h2, .banner-title { font-size: 21px; }
+            .balance-sheet-table th, .balance-sheet-table td { padding: 10px 12px; font-size: 13px; }
+            .studio-table th, .studio-table td { padding: 9px 11px; font-size: 13px; }
+            .close-sheet-btn { top: 10px; right: 15px; }
+            .modal-toolbar { padding: 0 45px 10px 8px; }
+            .utility-btn { padding: 7px 9px; font-size: 12px; }
+        }
+
+        @media print {
+            body { background: #ffffff !important; color: #000000 !important; padding: 0 !important; }
+            .no-print { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+    <div class="sidebar-section">
+        <div class="panel-group">
+            <div class="panel-title">Your Data</div>
+            <button class="cyber-btn balance-sheet" onclick="requestPassword('Balance Sheet')">Balance Sheet</button>
+            <button class="cyber-btn monthly-saving" onclick="requestPassword('Monthly Saving')">Monthly Saving</button>
+            <button class="cyber-btn app-data" onclick="requestPassword('APP DATA')">APP DATA</button>
+        </div>
+
+        <div class="panel-group">
+            <div class="panel-title">Studio Data</div>
+            <button class="cyber-btn" onclick="requestPassword('Maa Tarini Studio')">Maa Tarini Studio</button>
+            <button class="cyber-btn" onclick="requestPassword('WeClick')">WeClick</button>
+        </div>
+    </div>
+
+    <div class="form-container">
+        <div class="header">
+            <img class="brand-logo" src="assets/branding/logo.svg" alt="Phoenix Edit Point logo">
+            <div class="brand-title">
+                <span style="--i:1">P</span><span style="--i:2">h</span><span style="--i:3">o</span><span style="--i:4">e</span><span style="--i:5">n</span><span style="--i:6">i</span><span style="--i:7">x</span>&nbsp;<span style="--i:8">E</span><span style="--i:9">d</span><span style="--i:10">i</span><span style="--i:11">t</span>&nbsp;<span style="--i:12">P</span><span style="--i:13">o</span><span style="--i:14">i</span><span style="--i:15">n</span><span style="--i:16">t</span>
+            </div>
+            <div class="app-actions no-print" aria-label="Print and download options">
+                <button type="button" class="utility-btn" onclick="printCurrentView()">Print</button>
+                <button type="button" class="utility-btn" onclick="downloadCurrentData()">Download CSV</button>
+            </div>
+        </div>
+        
+        <table id="entryFormTable">
+            <tr>
+                <th>Select Option</th>
+                <td>
+                    <select id="studioSelect" onchange="updateStudioColor(this)">
+                        <option value="Maa Tarini Studio" style="background-color: #990000; color: white;">Maa Tarini Studio</option>
+                        <option value="WeClick" style="background-color: #0056b3; color: white;" selected>WeClick</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td><input type="date" id="dateInput"></td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td><input type="text" id="nameInput" placeholder="Enter name"></td>
+            </tr>
+            <tr>
+                <th>Category</th>
+                <td>
+                    <select id="categorySelect" onchange="handleCategoryChange(this)">
+                        <option value=""></option>
+                        <option value="Project Amount" style="color: black;">Project Amount</option>
+                        <option value="Received Amount" style="color: black;">Received Amount</option>
+                        <option value="Expense Amount" style="color: black;">Expense Amount</option>
+                        <option value="Income Amount" style="color: black;">Income Amount</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Amount</th>
+                <td><input type="text" id="amountInput" placeholder="Enter amount" oninput="formatIndianCurrency(this)"></td>
+            </tr>
+            <tr>
+                <th>Work Status</th>
+                <td>
+                    <select id="workStatusSelect" onchange="handleWorkStatusChange(this)">
+                        <option value=""></option>
+                        <option value="Pending" style="color: black;">Pending</option>
+                        <option value="Received" style="color: black;">Received</option>
+                        <option value="Complete" style="color: black;">Complete</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Delivery Status</th>
+                <td>
+                    <select id="deliveryStatusSelect" onchange="updateDeliveryStatusColor(this)">
+                        <option value=""></option>
+                        <option value="Not Delivered" style="color: black;">Not Delivered</option>
+                        <option value="Delivered" style="color: black;">Delivered</option>
+                        <option value="Received" style="color: black;">Received</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Payment Mode</th>
+                <td>
+                    <select id="paymentModeSelect" onchange="updatePaymentModeColor(this)">
+                        <option value=""></option>
+                        <option value="PhonePe" style="color: black;">PhonePe</option>
+                        <option value="Google Pay" style="color: black;">Google Pay</option>
+                        <option value="Cash" style="color: black;">Cash</option>
+                        <option value="Bank" style="color: black;">Bank</option>
+                        <option value="Navi" style="color: black;">Navi</option>
+                        <option value="BHIM UPI" selected style="color: black;">BHIM UPI</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Note / Remarks</th>
+                <td><input type="text" id="remarksInput" placeholder="Enter remarks"></td>
+            </tr>
+        </table>
+
+        <div class="submit-container">
+            <div class="submit-btn-wrapper">
+                <button class="submit-btn" id="submitBtn" onclick="submitDataToSheet()">SUBMIT</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="passwordModal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closePasswordModal()">&times;</span>
+        <div class="brand-title" style="margin-bottom: 15px;">
+            <span style="--i:1">P</span><span style="--i:2">h</span><span style="--i:3">o</span><span style="--i:4">e</span><span style="--i:5">n</span><span style="--i:6">i</span><span style="--i:7">x</span>&nbsp;<span style="--i:8">E</span><span style="--i:9">d</span><span style="--i:10">i</span><span style="--i:11">t</span>&nbsp;<span style="--i:12">P</span><span style="--i:13">o</span><span style="--i:14">i</span><span style="--i:15">n</span><span style="--i:16">t</span>
+        </div>
+        
+        <div class="modal-body">
+            <div id="unlock-section">
+                <h3>Unlock Protected Sheets</h3>
+                <div class="input-wrapper">
+                    <input type="password" id="pass" placeholder="Enter Password" autofocus />
+                </div>
+                <div class="btn-container">
+                    <button class="modal-btn" onclick="submitPass()">Unlock</button>
+                </div>
+                <div class="toggle-link">
+                    <a onclick="toggleSection()">Change Password? Click here</a>
+                </div>
+            </div>
+
+            <div id="change-pass-section" class="hidden">
+                <h3>Change Password</h3>
+                <div class="input-wrapper">
+                    <input type="password" id="old-pass" placeholder="Enter Old Password" />
+                </div>
+                <div class="input-wrapper">
+                    <input type="password" id="new-pass" placeholder="Enter New Password" />
+                </div>
+                <div class="btn-container">
+                    <button class="modal-btn" onclick="submitChangePass()">Update Password</button>
+                </div>
+                <div class="toggle-link">
+                    <a onclick="toggleSection()">Back to Unlock</a>
+                </div>
+            </div>
+        </div>
+
+        <div id="msg"></div>
+        <div id="success-msg"></div>
+    </div>
+</div>
+
+<!-- BALANCE SHEET MODAL -->
+<div id="dynamicSheetModal">
+    <div class="sheet-ui-container">
+        <div class="sheet-header">
+            <span class="close-sheet-btn" onclick="closeDynamicSheet()">&times;</span>
+            <h2>Balance Sheet View</h2>
+            <div class="modal-toolbar no-print">
+                <button type="button" class="utility-btn" onclick="printCurrentView()">Print</button>
+                <button type="button" class="utility-btn" onclick="downloadCurrentData()">Download CSV</button>
+            </div>
+        </div>
+        
+        <div class="table-responsive">
+            <table class="balance-sheet-table" id="balanceSheetTable">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Project / Transaction Name</th>
+                        <th>Category</th>
+                        <th>Income (Credit)</th>
+                        <th>Expense (Debit)</th>
+                        <th>Balance</th>
+                        <th>Payment Mode</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- MAA TARINI STUDIO MODAL -->
+<div id="studioModal">
+    <div class="studio-card-modal">
+        <span class="close-sheet-btn" onclick="closeStudioModal()">&times;</span>
+        <div class="banner-title" id="studioTitle">
+            Maa Tarini Studio
+        </div>
+        <div class="modal-toolbar no-print">
+            <button type="button" class="utility-btn" onclick="printCurrentView()">Print</button>
+            <button type="button" class="utility-btn" onclick="downloadCurrentData()">Download CSV</button>
+        </div>
+
+        <div class="studio-table-container">
+            <table class="studio-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Work Name</th>
+                        <th>Status</th>
+                        <th>Amount</th>
+                        <th>Received Amount</th>
+                        <th>Balance</th>
+                        <th>Delivery Status</th>
+                    </tr>
+                </thead>
+                <tbody id="studioTableData">
+                    <tr>
+                        <td colspan="7" class="loading-text">Google Sheet se live data load ho raha hai...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- APP DATA SUMMARY MODAL -->
+<div id="appDataModal">
+    <div class="studio-card-modal">
+        <span class="close-sheet-btn" onclick="closeAppDataModal()">&times;</span>
+        <div class="banner-title">
+            APP DATA
+        </div>
+        <div class="modal-toolbar no-print">
+            <button type="button" class="utility-btn" onclick="printCurrentView()">Print</button>
+            <button type="button" class="utility-btn" onclick="downloadCurrentData()">Download CSV</button>
+        </div>
+
+        <div class="studio-table-container">
+            <table class="studio-table">
+                <thead>
+                    <tr>
+                        <th>App</th>
+                        <th>Total Income</th>
+                        <th>Total Expense</th>
+                        <th style="background-color: #0d1117; border: none;"></th>
+                    </tr>
+                </thead>
+                <tbody id="appSummaryData">
+                    <tr>
+                        <td colspan="4" class="loading-text">Google Sheet se live data load ho raha hai...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="inlineSaveNotice" role="status" aria-live="polite"></div>
+
+<script src="app-config.js"></script>
+<script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyF3BThTADOh63j2rJLlMA3y0AI6EZ7QOtUUOX8C-O1MM4CnoT54vom9uvnMZ7DPZ21/exec";
+    let currentPassword = "2820";
+    let pendingTargetType = '';
+
+    window.onload = function() {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('dateInput').value = today;
+
+        updateStudioColor(document.getElementById('studioSelect'));
+        updateCategoryColor(document.getElementById('categorySelect'));
+        updateWorkStatusColor(document.getElementById('workStatusSelect'));
+        updateDeliveryStatusColor(document.getElementById('deliveryStatusSelect'));
+        updatePaymentModeColor(document.getElementById('paymentModeSelect'));
+    };
+
+    // Google Sheets remains the live data source. A visible data view refreshes
+    // automatically so rows added later show in the installed app too.
+    const appConfig = window.PHOENIX_APP_CONFIG || {};
+    const liveRefreshMs = Math.max(Number(appConfig.liveRefreshMs) || 30000, 10000);
+
+    setInterval(() => {
+        if (document.hidden || document.activeElement?.isContentEditable) return;
+        if (document.getElementById('dynamicSheetModal').style.display === 'flex') {
+            loadDynamicBalanceSheet();
+        } else if (document.getElementById('studioModal').style.display === 'flex') {
+            fetchStudioSheetData(document.getElementById('studioTitle').innerText.trim());
+        } else if (document.getElementById('appDataModal').style.display === 'flex') {
+            fetchAppData();
+        }
+    }, liveRefreshMs);
+
+    function getActiveExportSource() {
+        const views = [
+            { modal: 'dynamicSheetModal', table: 'balanceSheetTable', title: 'balance-sheet' },
+            { modal: 'studioModal', table: 'studioTableData', title: 'studio-data' },
+            { modal: 'appDataModal', table: 'appSummaryData', title: 'app-data' }
+        ];
+        const active = views.find(view => document.getElementById(view.modal).style.display === 'flex');
+        if (!active) {
+            return {
+                table: document.getElementById('entryFormTable'),
+                title: 'entry-form',
+                printElement: document.querySelector('.form-container')
+            };
+        }
+
+        const table = active.table === 'studioTableData' || active.table === 'appSummaryData'
+            ? document.getElementById(active.table).closest('table')
+            : document.getElementById(active.table);
+        const modal = document.getElementById(active.modal);
+        return {
+            table,
+            title: active.title,
+            printElement: modal.querySelector('.sheet-ui-container, .studio-card-modal')
+        };
+    }
+
+    function csvField(value) {
+        return '"' + String(value ?? '').replace(/"/g, '""').replace(/\s+/g, ' ').trim() + '"';
+    }
+
+    function downloadCurrentData() {
+        const source = getActiveExportSource();
+        const rows = Array.from(source.table.querySelectorAll('tr'))
+            .map(row => Array.from(row.querySelectorAll('th, td')).map(cell => cell.innerText))
+            .filter(row => row.length > 0);
+
+        if (!rows.length) {
+            alert('Download karne ke liye koi data available nahi hai.');
+            return;
+        }
+
+        const csv = '\uFEFF' + rows.map(row => row.map(csvField).join(',')).join('\r\n');
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+        const link = document.createElement('a');
+        const today = new Date().toISOString().slice(0, 10);
+        const objectUrl = URL.createObjectURL(blob);
+        link.href = objectUrl;
+        link.download = `phoenix-edit-point-${source.title}-${today}.csv`;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+    }
+
+    function printCurrentView() {
+        const source = getActiveExportSource();
+        const printWindow = window.open('', '_blank', 'width=1100,height=800');
+        if (!printWindow) {
+            alert('Print window open nahi hui. Browser/app popup permission check karein.');
+            return;
+        }
+        printWindow.opener = null;
+
+        const title = `Phoenix Edit Point - ${source.title.replace(/-/g, ' ')}`;
+        const content = source.printElement.cloneNode(true);
+        content.querySelectorAll('.no-print, .close-sheet-btn').forEach(element => element.remove());
+        printWindow.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${title}</title><style>
+            * { box-sizing: border-box; } body { font-family: Arial, sans-serif; color: #111; margin: 24px; }
+            table { width: 100%; border-collapse: collapse; margin-top: 16px; } th, td { border: 1px solid #555; padding: 8px; text-align: left; vertical-align: top; }
+            th { background: #e8e8e8; } input, select { border: 0; width: 100%; font: inherit; color: #111; background: transparent; }
+            .brand-title, .banner-title, h2 { color: #111 !important; -webkit-text-fill-color: #111 !important; }
+            .submit-container { text-align: center; margin-top: 16px; } .submit-btn { padding: 8px 18px; } .brand-logo { max-height: 56px; }
+            @page { size: auto; margin: 12mm; }
+        </style></head><body><h1>${title}</h1>${content.outerHTML}</body></html>`);
+        printWindow.document.close();
+        printWindow.focus();
+        setTimeout(() => printWindow.print(), 300);
+    }
+
+    // Direct table editing: edit a value in place, then press Enter or click away.
+    // The original Google Sheet row number travels with each visible cell.
+    let inlineNoticeTimer;
+
+    function escapeHtml(value) {
+        return String(value === null || value === undefined ? '' : value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+
+    function inlineEditableCell(value, sheet, rowNumber, field, extraClass) {
+        const classes = ((extraClass || '') + ' editable-cell').trim();
+        return '<td class="' + classes + '" contenteditable="true" spellcheck="false" title="Click to edit" ' +
+            'data-sheet="' + escapeHtml(sheet) + '" data-row="' + Number(rowNumber) + '" ' +
+            'data-field="' + escapeHtml(field) + '">' + escapeHtml(value) + '</td>';
+    }
+
+    function inlineBadgeCell(value, sheet, rowNumber, field, badgeClass) {
+        return '<td class="editable-cell" contenteditable="true" spellcheck="false" title="Click to edit" ' +
+            'data-sheet="' + escapeHtml(sheet) + '" data-row="' + Number(rowNumber) + '" ' +
+            'data-field="' + escapeHtml(field) + '"><span class="' + badgeClass + '">' +
+            escapeHtml(value) + '</span></td>';
+    }
+
+    function inlineSelectCell(value, sheet, rowNumber, field, options) {
+        const currentValue = String(value || '');
+        const values = options.slice();
+        if (!values.includes(currentValue)) values.unshift(currentValue);
+        const optionHtml = values.map(option => '<option value="' + escapeHtml(option) + '"' +
+            (option === currentValue ? ' selected' : '') + '>' + escapeHtml(option) + '</option>').join('');
+        return '<td><select class="inline-edit-select ' + getStatusColorClass(currentValue) + '" ' +
+            'title="Select a new value" data-sheet="' + escapeHtml(sheet) + '" ' +
+            'data-row="' + Number(rowNumber) + '" data-field="' + escapeHtml(field) + '">' +
+            optionHtml + '</select></td>';
+    }
+
+    function getStatusColorClass(statusText) {
+        const text = String(statusText || '').trim().toLowerCase();
+        if (text === 'completed' || text === 'delivered' || text === 'complete') return 'status-green';
+        if (text === 'received') return 'status-purple';
+        if (text === 'pending' || text === 'not delivered') return 'status-red';
+        return 'status-default';
+    }
+
+    function getStatusBadgeClass(statusText) {
+        return 'dropdown-badge ' + getStatusColorClass(statusText);
+    }
+
+    function readInlineCell(cell) {
+        if (cell.matches && cell.matches('select')) return cell.value.trim();
+        return cell.textContent.replace(/\u00a0/g, ' ').trim();
+    }
+
+    function restoreInlineCell(cell, value) {
+        if (cell.matches && cell.matches('select')) {
+            cell.value = value;
+            syncInlineSelectColor(cell);
+        } else {
+            cell.textContent = value;
+        }
+    }
+
+    function syncInlineSelectColor(select) {
+        select.classList.remove('status-green', 'status-purple', 'status-red', 'status-default');
+        select.classList.add(getStatusColorClass(select.value));
+    }
+
+    function isInlineNumberField(field) {
+        return ['income', 'expense', 'amount', 'receivedAmount'].includes(field);
+    }
+
+    function validateInlineCell(cell, value) {
+        const field = cell.dataset.field;
+        if (['date', 'name', 'workName', 'app'].includes(field) && !value) {
+            return 'This value cannot be empty.';
+        }
+        if (field === 'date' && !/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+            return 'Date must be YYYY-MM-DD.';
+        }
+        if (isInlineNumberField(field) && value &&
+            !/^[-+]?(?:\d+|\d{1,3}(?:,\d{2,3})+)(?:\.\d+)?$/.test(value.replace(/[₹\s]/g, ''))) {
+            return 'Enter a valid number.';
+        }
+        return '';
+    }
+
+    function showInlineSaveNotice(message, isError) {
+        const notice = document.getElementById('inlineSaveNotice');
+        notice.textContent = message;
+        notice.classList.toggle('error', Boolean(isError));
+        notice.style.display = 'block';
+        clearTimeout(inlineNoticeTimer);
+        inlineNoticeTimer = setTimeout(() => {
+            notice.style.display = 'none';
+        }, 2600);
+    }
+
+    function refreshInlineSheet(sheetName) {
+        if (sheetName === 'Balance Sheet' &&
+            document.getElementById('dynamicSheetModal').style.display === 'flex') {
+            loadDynamicBalanceSheet();
+        } else if ((sheetName === 'Maa Tarini Studio' || sheetName === 'WeClick') &&
+                   document.getElementById('studioModal').style.display === 'flex') {
+            fetchStudioSheetData(sheetName);
+        } else if (sheetName === 'APP DATA' &&
+                   document.getElementById('appDataModal').style.display === 'flex') {
+            fetchAppData();
+        }
+    }
+
+    let inlineUpdateSequence = 0;
+
+    function saveInlineCell(cell) {
+        const originalValue = cell.dataset.original || '';
+        const updatedValue = readInlineCell(cell);
+        if (updatedValue === originalValue) return;
+
+        const validationMessage = validateInlineCell(cell, updatedValue);
+        if (validationMessage) {
+            restoreInlineCell(cell, originalValue);
+            showInlineSaveNotice(validationMessage, true);
+            return;
+        }
+
+        const sheetName = cell.dataset.sheet;
+        const callbackName = 'inlineUpdateCallback' + Date.now() + (++inlineUpdateSequence);
+        const script = document.createElement('script');
+        let finished = false;
+
+        function cleanUp() {
+            if (script.parentNode) script.remove();
+            delete window[callbackName];
+        }
+
+        function fail(message) {
+            if (finished) return;
+            finished = true;
+            clearTimeout(timeoutId);
+            cleanUp();
+            restoreInlineCell(cell, originalValue);
+            delete cell.dataset.saving;
+            showInlineSaveNotice(message, true);
+        }
+
+        const timeoutId = setTimeout(() => {
+            fail('Google Sheet response timed out. Please try again.');
+        }, 15000);
+
+        window[callbackName] = response => {
+            if (finished) return;
+            finished = true;
+            clearTimeout(timeoutId);
+            cleanUp();
+
+            if (!response || response.result !== 'success') {
+                restoreInlineCell(cell, originalValue);
+                delete cell.dataset.saving;
+                const message = response && response.message ?
+                    response.message : 'Google Sheet update was rejected. Deploy the new Apps Script version.';
+                showInlineSaveNotice(message, true);
+                return;
+            }
+
+            cell.dataset.original = updatedValue;
+            delete cell.dataset.saving;
+            showInlineSaveNotice('Google Sheet updated.');
+            setTimeout(() => refreshInlineSheet(sheetName), 250);
+        };
+
+        script.id = 'inline-update-script-' + inlineUpdateSequence;
+        script.onerror = () => fail('Google Sheet update failed. Please try again.');
+        script.src = SCRIPT_URL + '?action=updateRow' +
+            '&sheet=' + encodeURIComponent(sheetName) +
+            '&rowNumber=' + encodeURIComponent(cell.dataset.row) +
+            '&field=' + encodeURIComponent(cell.dataset.field) +
+            '&value=' + encodeURIComponent(updatedValue) +
+            '&callback=' + encodeURIComponent(callbackName);
+        cell.dataset.saving = 'true';
+        document.body.appendChild(script);
+    }
+
+    function enableInlineEditing(container) {
+        container.querySelectorAll('.editable-cell').forEach(cell => {
+            cell.addEventListener('focus', () => {
+                cell.dataset.original = readInlineCell(cell);
+            });
+
+            cell.addEventListener('keydown', event => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    cell.blur();
+                } else if (event.key === 'Escape') {
+                    event.preventDefault();
+                    cell.textContent = cell.dataset.original || '';
+                    cell.blur();
+                }
+            });
+
+            cell.addEventListener('blur', () => saveInlineCell(cell));
+        });
+
+        container.querySelectorAll('.inline-edit-select').forEach(select => {
+            select.addEventListener('focus', () => {
+                select.dataset.original = select.value;
+            });
+            select.addEventListener('change', () => {
+                syncInlineSelectColor(select);
+                saveInlineCell(select);
+            });
+        });
+    }
+
+    function displayMoney(value) {
+        return '₹' + String(value === null || value === undefined || value === '' ? 0 : value);
+    }
+
+    function renderBalanceInline(data) {
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
+        if (!data || data.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;">No Data Found</td></tr>';
+            return;
+        }
+
+        data.forEach(item => {
+            const tr = document.createElement('tr');
+            const badgeClass = String(item.paymentMode || '').toLowerCase() === 'phonepe' ? 'phonepe' : 'navi';
+            const balanceClass = Number(item.balance) < 0 ? 'balance-negative' : 'balance-positive';
+            tr.innerHTML = [
+                inlineEditableCell(item.date || '', 'Balance Sheet', item.rowNumber, 'date'),
+                inlineEditableCell(item.name || '', 'Balance Sheet', item.rowNumber, 'name'),
+                inlineEditableCell(item.category || '', 'Balance Sheet', item.rowNumber, 'category'),
+                inlineEditableCell(displayMoney(item.income), 'Balance Sheet', item.rowNumber, 'income', 'income-val'),
+                inlineEditableCell(displayMoney(item.expense), 'Balance Sheet', item.rowNumber, 'expense', 'expense-val'),
+                '<td class="' + balanceClass + '">' + escapeHtml(displayMoney(item.balance)) + '</td>',
+                inlineBadgeCell(item.paymentMode || '', 'Balance Sheet', item.rowNumber, 'paymentMode', 'badge ' + badgeClass),
+                inlineEditableCell(item.notes || '', 'Balance Sheet', item.rowNumber, 'notes')
+            ].join('');
+            tbody.appendChild(tr);
+        });
+
+        enableInlineEditing(tbody);
+        const oldScript = document.getElementById('jsonp-script');
+        if (oldScript) oldScript.remove();
+    }
+
+    function renderStudioInline(rows) {
+        const tbody = document.getElementById('studioTableData');
+        tbody.innerHTML = '';
+        if (!rows || rows.length === 0 || rows.error) {
+            tbody.innerHTML = '<tr><td colspan="7" class="loading-text">Koi data nahi mila.</td></tr>';
+            return;
+        }
+
+        const currentStudio = document.getElementById('studioTitle').innerText.trim();
+        const filteredRows = rows.filter(row => !row.studio ||
+            row.studio.trim().toLowerCase() === currentStudio.toLowerCase());
+        if (filteredRows.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7" class="loading-text">' +
+                escapeHtml(currentStudio) + ' ka koi data nahi mila.</td></tr>';
+            return;
+        }
+
+        filteredRows.forEach(row => {
+            const tr = document.createElement('tr');
+            const workName = row.workName || row.name || row.remarks || '-';
+            const status = row.status || row.workStatus || '-';
+            const amount = row.amount || (row.category === 'Project Amount' ? row.amount : 0);
+            const receivedAmount = row.receivedAmount || row.income ||
+                (row.category === 'Received Amount' ? row.amount : 0);
+            const balance = row.balance !== undefined ? row.balance :
+                (parseFloat(amount) - parseFloat(receivedAmount));
+            const deliveryStatus = row.deliveryStatus || '-';
+            tr.innerHTML = [
+                inlineEditableCell(row.date || '', currentStudio, row.rowNumber, 'date'),
+                inlineEditableCell(workName, currentStudio, row.rowNumber, 'workName'),
+                inlineSelectCell(status, currentStudio, row.rowNumber, 'status',
+                    ['Pending', 'Received', 'Complete', 'Completed']),
+                inlineEditableCell(displayMoney(amount), currentStudio, row.rowNumber, 'amount'),
+                inlineEditableCell(displayMoney(receivedAmount), currentStudio, row.rowNumber, 'receivedAmount'),
+                '<td>' + escapeHtml(displayMoney(balance)) + '</td>',
+                inlineSelectCell(deliveryStatus, currentStudio, row.rowNumber, 'deliveryStatus',
+                    ['Not Delivered', 'Delivered', 'Received'])
+            ].join('');
+            tbody.appendChild(tr);
+        });
+
+        enableInlineEditing(tbody);
+        const oldStudioScript = document.getElementById('studio-jsonp-script');
+        if (oldStudioScript) oldStudioScript.remove();
+    }
+
+    function renderAppDataInline(response) {
+        const tbody = document.getElementById('appSummaryData');
+        tbody.innerHTML = '';
+        const appsList = Array.isArray(response) ? response : (response && response.apps ? response.apps : []);
+        if (!appsList || appsList.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="4" class="loading-text">Koi live data nahi mila.</td></tr>';
+            return;
+        }
+
+        let totalIncome = 0;
+        let totalExpense = 0;
+        appsList.forEach(item => {
+            const appName = item.app || item.appName || item[0] || '';
+            const income = parseFloat(item.income || item.totalIncome || item[1]) || 0;
+            const expense = parseFloat(item.expense || item.totalExpense || item[2]) || 0;
+            totalIncome += income;
+            totalExpense += expense;
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = [
+                inlineBadgeCell(appName, 'APP DATA', item.rowNumber, 'app',
+                    'app-badge ' + getAppBadgeClass(appName)),
+                inlineEditableCell(displayMoney(formatCurrency(income)), 'APP DATA', item.rowNumber,
+                    'income', 'income-val'),
+                inlineEditableCell(displayMoney(formatCurrency(expense)), 'APP DATA', item.rowNumber,
+                    'expense', 'expense-val'),
+                '<td></td>'
+            ].join('');
+            tbody.appendChild(tr);
+        });
+
+        const netBalance = totalIncome - totalExpense;
+        const balanceHeaderRow = document.createElement('tr');
+        balanceHeaderRow.innerHTML = '<td style="border:none;"></td><td style="border:none;"></td>' +
+            '<td class="balance-header">Balance</td><td style="border:none;"></td>';
+        tbody.appendChild(balanceHeaderRow);
+
+        const totalRow = document.createElement('tr');
+        totalRow.className = 'total-row';
+        totalRow.innerHTML = '<td>TOTAL</td><td>' + escapeHtml(displayMoney(formatCurrency(totalIncome))) +
+            '</td><td>' + escapeHtml(displayMoney(formatCurrency(totalExpense))) +
+            '</td><td class="balance-value">' + escapeHtml(displayMoney(formatCurrency(netBalance))) + '</td>';
+        tbody.appendChild(totalRow);
+
+        enableInlineEditing(tbody);
+        const oldAppScript = document.getElementById('appdata-jsonp-script');
+        if (oldAppScript) oldAppScript.remove();
+    }
+
+    function formatIndianCurrency(input) {
+        let value = input.value.replace(/\D/g, '');
+        if (!value) {
+            input.value = '';
+            return;
+        }
+        let number = parseInt(value, 10);
+        input.value = number.toLocaleString('en-IN');
+    }
+
+    function updateStudioColor(selectObj) {
+        if (selectObj.value === 'Maa Tarini Studio') {
+            selectObj.style.backgroundColor = '#990000';
+            selectObj.style.color = 'white';
+        } else if (selectObj.value === 'WeClick') {
+            selectObj.style.backgroundColor = '#0056b3';
+            selectObj.style.color = 'white';
+        }
+    }
+
+    function handleCategoryChange(selectObj) {
+        updateCategoryColor(selectObj);
+        if (selectObj.value === 'Income Amount' || selectObj.value === 'Received Amount') {
+            const workStatus = document.getElementById('workStatusSelect');
+            workStatus.value = 'Received';
+            updateWorkStatusColor(workStatus);
+
+            const deliveryStatus = document.getElementById('deliveryStatusSelect');
+            deliveryStatus.value = 'Received';
+            updateDeliveryStatusColor(deliveryStatus);
+        } else if (selectObj.value === 'Project Amount') {
+            const workStatus = document.getElementById('workStatusSelect');
+            workStatus.value = 'Pending';
+            updateWorkStatusColor(workStatus);
+
+            const deliveryStatus = document.getElementById('deliveryStatusSelect');
+            deliveryStatus.value = 'Not Delivered';
+            updateDeliveryStatusColor(deliveryStatus);
+        }
+    }
+
+    function handleWorkStatusChange(selectObj) {
+        updateWorkStatusColor(selectObj);
+        if (selectObj.value === 'Pending') {
+            const deliveryStatus = document.getElementById('deliveryStatusSelect');
+            deliveryStatus.value = 'Not Delivered';
+            updateDeliveryStatusColor(deliveryStatus);
+        }
+    }
+
+    function updateCategoryColor(selectObj) {
+        const val = selectObj.value;
+        if (val === 'Project Amount') {
+            selectObj.style.backgroundColor = '#f1c40f';
+            selectObj.style.color = 'black';
+        } else if (val === 'Received Amount' || val === 'Income Amount') {
+            selectObj.style.backgroundColor = '#27ae60';
+            selectObj.style.color = 'white';
+        } else if (val === 'Expense Amount') {
+            selectObj.style.backgroundColor = '#c0392b';
+            selectObj.style.color = 'white';
+        } else {
+            selectObj.style.backgroundColor = 'transparent';
+            selectObj.style.color = '#ffffff';
+        }
+    }
+
+    function updateWorkStatusColor(selectObj) {
+        const val = selectObj.value;
+        if (val === 'Pending') {
+            selectObj.style.backgroundColor = '#c0392b';
+            selectObj.style.color = 'white';
+        } else if (val === 'Received' || val === 'Complete') {
+            selectObj.style.backgroundColor = '#8e44ad';
+            selectObj.style.color = 'white';
+        } else {
+            selectObj.style.backgroundColor = 'transparent';
+            selectObj.style.color = '#ffffff';
+        }
+    }
+
+    function updateDeliveryStatusColor(selectObj) {
+        const val = selectObj.value;
+        if (val === 'Not Delivered') {
+            selectObj.style.backgroundColor = '#c0392b';
+            selectObj.style.color = 'white';
+        } else if (val === 'Delivered' || val === 'Received') {
+            selectObj.style.backgroundColor = '#8e44ad';
+            selectObj.style.color = 'white';
+        } else {
+            selectObj.style.backgroundColor = 'transparent';
+            selectObj.style.color = '#ffffff';
+        }
+    }
+
+    function updatePaymentModeColor(selectObj) {
+        const val = selectObj.value;
+        if (val === 'PhonePe') {
+            selectObj.style.backgroundColor = '#27ae60';
+            selectObj.style.color = 'white';
+        } else if (val === 'Google Pay') {
+            selectObj.style.backgroundColor = '#0056b3';
+            selectObj.style.color = 'white';
+        } else if (val === 'Cash') {
+            selectObj.style.backgroundColor = '#bdc3c7';
+            selectObj.style.color = 'black';
+        } else if (val === 'Bank' || val === 'Navi') {
+            selectObj.style.backgroundColor = '#c0392b';
+            selectObj.style.color = 'white';
+        } else if (val === 'BHIM UPI') {
+            selectObj.style.backgroundColor = '#8e44ad';
+            selectObj.style.color = 'white';
+        } else {
+            selectObj.style.backgroundColor = 'transparent';
+            selectObj.style.color = '#ffffff';
+        }
+    }
+
+    function requestPassword(typeName) {
+        pendingTargetType = typeName;
+        document.getElementById('pass').value = '';
+        document.getElementById('msg').innerText = '';
+        document.getElementById('success-msg').innerText = '';
+        document.getElementById('passwordModal').style.display = 'flex';
+        document.getElementById('pass').focus();
+    }
+
+    function closePasswordModal() {
+        document.getElementById('passwordModal').style.display = 'none';
+    }
+
+    function toggleSection() {
+        var unlockSec = document.getElementById('unlock-section');
+        var changeSec = document.getElementById('change-pass-section');
+        document.getElementById('msg').innerText = "";
+        document.getElementById('success-msg').innerText = "";
+
+        if (unlockSec.classList.contains('hidden')) {
+            unlockSec.classList.remove('hidden');
+            changeSec.classList.add('hidden');
+        } else {
+            unlockSec.classList.add('hidden');
+            changeSec.classList.remove('hidden');
+        }
+    }
+
+    function submitPass() {
+        var password = document.getElementById('pass').value;
+        document.getElementById('msg').innerText = "";
+        
+        if (password === currentPassword) {
+            closePasswordModal();
+            openRequestedSheet(pendingTargetType);
+        } else {
+            document.getElementById('msg').innerText = "Incorrect Password!";
+        }
+    }
+
+    function submitChangePass() {
+        var oldPass = document.getElementById('old-pass').value;
+        var newPass = document.getElementById('new-pass').value;
+        document.getElementById('msg').innerText = "";
+        document.getElementById('success-msg').innerText = "";
+
+        if (oldPass !== currentPassword) {
+            document.getElementById('msg').innerText = "Old password is incorrect!";
+            return;
+        }
+        if (!newPass) {
+            document.getElementById('msg').innerText = "New password cannot be empty!";
+            return;
+        }
+
+        currentPassword = newPass;
+        document.getElementById('success-msg').innerText = "Password updated successfully!";
+        setTimeout(() => {
+            toggleSection();
+            document.getElementById('old-pass').value = "";
+            document.getElementById('new-pass').value = "";
+        }, 1200);
+    }
+
+    function openRequestedSheet(typeName) {
+        if (typeName === 'Balance Sheet') {
+            loadDynamicBalanceSheet();
+            document.getElementById('dynamicSheetModal').style.display = 'flex';
+        } else if (typeName === 'Maa Tarini Studio' || typeName === 'WeClick') {
+            document.getElementById('studioTitle').innerText = typeName;
+            fetchStudioSheetData(typeName);
+            document.getElementById('studioModal').style.display = 'flex';
+        } else if (typeName === 'APP DATA') {
+            fetchAppData();
+            document.getElementById('appDataModal').style.display = 'flex';
+        } else {
+            alert(typeName + " opened successfully!");
+        }
+    }
+
+    function closeDynamicSheet() {
+        document.getElementById('dynamicSheetModal').style.display = 'none';
+    }
+
+    function closeStudioModal() {
+        document.getElementById('studioModal').style.display = 'none';
+    }
+
+    function closeAppDataModal() {
+        document.getElementById('appDataModal').style.display = 'none';
+    }
+
+    // Balance Sheet JSONP Handler
+    window.handleSheetDataResponse = function(data) {
+        const tbody = document.getElementById("tableBody");
+        tbody.innerHTML = "";
+        if (!data || data.length === 0) {
+            tbody.innerHTML = "<tr><td colspan='8' style='text-align:center;'>No Data Found</td></tr>";
+            return;
+        }
+        data.forEach(item => {
+            let tr = document.createElement("tr");
+
+            let badgeClass = String(item.paymentMode || '').toLowerCase() === "phonepe" ? "phonepe" : "navi";
+            let balanceClass = String(item.balance || '').includes("-") ? "balance-negative" : "balance-positive";
+
+            tr.innerHTML = `
+                <td>${item.date || ''}</td>
+                <td>${item.name || ''}</td>
+                <td>${item.category || ''}</td>
+                <td class="income-val">₹${item.income || 0}</td>
+                <td class="expense-val">₹${item.expense || 0}</td>
+                <td class="${balanceClass}">₹${item.balance || 0}</td>
+                <td><span class="badge ${badgeClass}">${item.paymentMode || ''}</span></td>
+                <td>${item.notes || ''}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+        
+        const oldScript = document.getElementById('jsonp-script');
+        if(oldScript) oldScript.remove();
+    };
+
+    function loadDynamicBalanceSheet() {
+        const tbody = document.getElementById("tableBody");
+        tbody.innerHTML = "<tr><td colspan='8' style='text-align:center;'>Loading Sheet Data...</td></tr>"; 
+
+        const oldScript = document.getElementById('jsonp-script');
+        if(oldScript) oldScript.remove();
+
+        const script = document.createElement('script');
+        script.id = 'jsonp-script';
+        script.src = `${SCRIPT_URL}?sheet=Balance Sheet&callback=handleSheetDataResponse`;
+        script.onerror = function() {
+            tbody.innerHTML = "<tr><td colspan='8' style='text-align:center; color:red;'>Failed to load balance sheet data.</td></tr>";
+        };
+        document.body.appendChild(script);
+    }
+
+    // --- MAA TARINI STUDIO DATA FETCH & RENDER ---
+    function fetchStudioSheetData(sheetName) {
+        const tbody = document.getElementById('studioTableData');
+        tbody.innerHTML = `<tr><td colspan="7" class="loading-text">Google Sheet se live data load ho raha hai...</td></tr>`;
+
+        const oldStudioScript = document.getElementById('studio-jsonp-script');
+        if(oldStudioScript) oldStudioScript.remove();
+
+        const script = document.createElement('script');
+        script.id = 'studio-jsonp-script';
+        script.src = `${SCRIPT_URL}?sheet=${encodeURIComponent(sheetName)}&callback=renderStudioData`;
+        script.onerror = function() {
+            tbody.innerHTML = `<tr><td colspan="7" class="loading-text" style="color:red;">Data load hone me problem aayi.</td></tr>`;
+        };
+        document.body.appendChild(script);
+    }
+
+    window.renderStudioData = function(rows) {
+        const tbody = document.getElementById('studioTableData');
+        tbody.innerHTML = '';
+
+        if (!rows || rows.length === 0 || rows.error) {
+            tbody.innerHTML = `<tr><td colspan="7" class="loading-text">Koi data nahi mila.</td></tr>`;
+            return;
+        }
+
+        const currentStudio = document.getElementById('studioTitle').innerText.trim();
+
+        const filteredRows = rows.filter(row => {
+            if (!row.studio) return true;
+            return row.studio.trim().toLowerCase() === currentStudio.toLowerCase();
+        });
+
+        if (filteredRows.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="7" class="loading-text">${currentStudio} ka koi data nahi mila.</td></tr>`;
+            return;
+        }
+
+        filteredRows.forEach(row => {
+            const tr = document.createElement('tr');
+
+            const workName = row.workName || row.name || row.remarks || '-';
+            const status = row.status || row.workStatus || '-';
+            const amount = row.amount || (row.category === 'Project Amount' ? row.amount : 0);
+            const receivedAmount = row.receivedAmount || row.income || (row.category === 'Received Amount' ? row.amount : 0);
+            const balance = row.balance !== undefined ? row.balance : (parseFloat(amount) - parseFloat(receivedAmount));
+            const deliveryStatus = row.deliveryStatus || '-';
+
+            tr.innerHTML = `
+                <td>${row.date || ''}</td>
+                <td>${workName}</td>
+                <td>${getBadgeHTML(status)}</td>
+                <td>₹${formatCurrency(amount)}</td>
+                <td>₹${formatCurrency(receivedAmount)}</td>
+                <td>₹${formatCurrency(balance)}</td>
+                <td>${getBadgeHTML(deliveryStatus)}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        const oldStudioScript = document.getElementById('studio-jsonp-script');
+        if(oldStudioScript) oldStudioScript.remove();
+    };
+
+    function getBadgeHTML(statusText) {
+        if (!statusText || statusText === '-') return '-';
+        const text = statusText.toString().trim().toLowerCase();
+
+        let badgeClass = 'status-default';
+        if (text === 'completed' || text === 'delivered' || text === 'complete') {
+            badgeClass = 'status-green';
+        } else if (text === 'received') {
+            badgeClass = 'status-purple';
+        } else if (text === 'pending' || text === 'not delivered') {
+            badgeClass = 'status-red';
+        }
+
+        return `<div class="dropdown-badge ${badgeClass}">${statusText} <span class="arrow-icon">▼</span></div>`;
+    }
+
+    // --- APP DATA FETCH & RENDER ---
+    function fetchAppData() {
+        const tbody = document.getElementById('appSummaryData');
+        tbody.innerHTML = `<tr><td colspan="4" class="loading-text">Google Sheet se live data load ho raha hai...</td></tr>`;
+
+        const oldAppScript = document.getElementById('appdata-jsonp-script');
+        if(oldAppScript) oldAppScript.remove();
+
+        const script = document.createElement('script');
+        script.id = 'appdata-jsonp-script';
+        script.src = `${SCRIPT_URL}?sheet=APP DATA&action=getSummary&callback=renderAppDataSummary`;
+        script.onerror = function() {
+            tbody.innerHTML = `<tr><td colspan="4" class="loading-text" style="color:red;">APP DATA load hone me issue aaya.</td></tr>`;
+        };
+        document.body.appendChild(script);
+    }
+
+    function getAppBadgeClass(appName) {
+        const name = (appName || '').toLowerCase();
+        if (name.includes('phonepe')) return 'bg-phonepe';
+        if (name.includes('google pay') || name.includes('gpay')) return 'bg-gpay';
+        if (name.includes('paytm')) return 'bg-paytm';
+        if (name.includes('cash')) return 'bg-cash';
+        if (name.includes('bank') || name.includes('netbanking')) return 'bg-netbanking';
+        if (name.includes('navi')) return 'bg-navi';
+        if (name.includes('bhim')) return 'bg-bhim';
+        return 'bg-default';
+    }
+
+    window.renderAppDataSummary = function(response) {
+        const tbody = document.getElementById('appSummaryData');
+        tbody.innerHTML = '';
+
+        let appsList = [];
+        if (Array.isArray(response)) {
+            appsList = response;
+        } else if (response && response.apps) {
+            appsList = response.apps;
+        }
+
+        if (!appsList || appsList.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="4" class="loading-text">Koi live data nahi mila.</td></tr>`;
+            return;
+        }
+
+        let totalIncome = 0;
+        let totalExpense = 0;
+
+        appsList.forEach(item => {
+            const appName = item.app || item.appName || item[0] || '';
+            const income = parseFloat(item.income || item.totalIncome || item[1]) || 0;
+            const expense = parseFloat(item.expense || item.totalExpense || item[2]) || 0;
+            
+            totalIncome += income;
+            totalExpense += expense;
+
+            const badgeClass = getAppBadgeClass(appName);
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><span class="app-badge ${badgeClass}">${appName}</span></td>
+                <td>₹${formatCurrency(income)}</td>
+                <td>₹${formatCurrency(expense)}</td>
+                <td></td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        const netBalance = totalIncome - totalExpense;
+
+        const balanceHeaderRow = document.createElement('tr');
+        balanceHeaderRow.innerHTML = `
+            <td style="border: none;"></td>
+            <td style="border: none;"></td>
+            <td class="balance-header">Balance</td>
+            <td style="border: none;"></td>
+        `;
+        tbody.appendChild(balanceHeaderRow);
+
+        const totalRow = document.createElement('tr');
+        totalRow.className = 'total-row';
+        totalRow.innerHTML = `
+            <td>TOTAL</td>
+            <td>₹${formatCurrency(totalIncome)}</td>
+            <td>₹${formatCurrency(totalExpense)}</td>
+            <td class="balance-value">₹${formatCurrency(netBalance)}</td>
+        `;
+        tbody.appendChild(totalRow);
+
+        const oldAppScript = document.getElementById('appdata-jsonp-script');
+        if(oldAppScript) oldAppScript.remove();
+    };
+
+    // Replace the original read-only renderers with direct-edit renderers.
+    // The old functions stay above so the rest of the original app remains intact.
+    window.handleSheetDataResponse = renderBalanceInline;
+    window.renderStudioData = renderStudioInline;
+    window.renderAppDataSummary = renderAppDataInline;
+
+    function formatCurrency(val) {
+        const num = parseFloat(val) || 0;
+        return num.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function submitDataToSheet() {
+        const studio = document.getElementById('studioSelect').value;
+        const date = document.getElementById('dateInput').value;
+        const name = document.getElementById('nameInput').value;
+        const category = document.getElementById('categorySelect').value;
+        const rawAmount = document.getElementById('amountInput').value.replace(/,/g, '');
+        const workStatus = document.getElementById('workStatusSelect').value;
+        const deliveryStatus = document.getElementById('deliveryStatusSelect').value;
+        const paymentMode = document.getElementById('paymentModeSelect').value;
+        const remarks = document.getElementById('remarksInput').value;
+
+        if (!category) {
+            alert("Category Select karein!");
+            return;
+        }
+
+        if (!rawAmount || isNaN(rawAmount)) {
+            alert("Sahi Amount Bharein!");
+            return;
+        }
+
+        const payload = {
+            studio: studio,
+            date: date,
+            name: name,
+            category: category,
+            amount: parseFloat(rawAmount),
+            workStatus: workStatus,
+            deliveryStatus: deliveryStatus,
+            paymentMode: paymentMode,
+            remarks: remarks
+        };
+
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.innerText = "SUBMITTING...";
+        submitBtn.disabled = true;
+
+        fetch(SCRIPT_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: {
+                "Content-Type": "text/plain;charset=utf-8"
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(() => {
+            alert("Data Google Sheet me Successfully Add ho gaya!");
+            document.getElementById('nameInput').value = '';
+            document.getElementById('amountInput').value = '';
+            document.getElementById('remarksInput').value = '';
+            submitBtn.innerText = "SUBMIT";
+            submitBtn.disabled = false;
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Data Submit me issue aaya, dobara try karein!");
+            submitBtn.innerText = "SUBMIT";
+            submitBtn.disabled = false;
+        });
+    }
+</script>
+</body>
+</html>

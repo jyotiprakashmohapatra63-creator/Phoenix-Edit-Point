@@ -1,0 +1,9 @@
+{
+  "appId": "com.phoenixeditpoint.app",
+  "appName": "Phoenix Edit Point",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https"
+  }
+}
