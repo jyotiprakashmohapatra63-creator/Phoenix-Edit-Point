@@ -802,39 +802,6 @@
             object-fit: contain;
         }
 
-        .app-actions, .modal-toolbar {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-top: 14px;
-        }
-
-        .modal-toolbar {
-            margin: 0;
-            padding: 0 54px 14px 12px;
-        }
-
-        .utility-btn {
-            appearance: none;
-            border: 1px solid #38bdf8;
-            border-radius: 6px;
-            background: #102b3a;
-            color: #ffffff;
-            cursor: pointer;
-            font: inherit;
-            font-size: 13px;
-            font-weight: 700;
-            letter-spacing: .3px;
-            padding: 8px 12px;
-        }
-
-        .utility-btn:hover, .utility-btn:focus-visible {
-            background: #164f60;
-            border-color: #00e676;
-            outline: none;
-        }
-
         @media (max-width: 840px) {
             body {
                 align-items: flex-start;
@@ -871,14 +838,6 @@
                 width: 100%;
             }
 
-            .sheet-ui-container, .studio-card-modal {
-                max-width: 100%;
-                max-height: 92vh;
-            }
-
-            #dynamicSheetModal, #studioModal, #appDataModal {
-                padding: 10px;
-            }
         }
 
         @media (max-width: 480px) {
@@ -898,13 +857,21 @@
             .balance-sheet-table th, .balance-sheet-table td { padding: 10px 12px; font-size: 13px; }
             .studio-table th, .studio-table td { padding: 9px 11px; font-size: 13px; }
             .close-sheet-btn { top: 10px; right: 15px; }
-            .modal-toolbar { padding: 0 45px 10px 8px; }
-            .utility-btn { padding: 7px 9px; font-size: 12px; }
         }
 
-        @media print {
-            body { background: #ffffff !important; color: #000000 !important; padding: 0 !important; }
-            .no-print { display: none !important; }
+        /* Data pages open edge-to-edge instead of a small dialog box. */
+        #dynamicSheetModal, #studioModal, #appDataModal {
+            padding: 0;
+        }
+
+        .sheet-ui-container, .studio-card-modal {
+            width: 100vw;
+            max-width: none;
+            height: 100vh;
+            max-height: none;
+            border: 0;
+            border-radius: 0;
+            box-shadow: none;
         }
     </style>
 </head>
@@ -932,13 +899,9 @@
             <div class="brand-title">
                 <span style="--i:1">P</span><span style="--i:2">h</span><span style="--i:3">o</span><span style="--i:4">e</span><span style="--i:5">n</span><span style="--i:6">i</span><span style="--i:7">x</span>&nbsp;<span style="--i:8">E</span><span style="--i:9">d</span><span style="--i:10">i</span><span style="--i:11">t</span>&nbsp;<span style="--i:12">P</span><span style="--i:13">o</span><span style="--i:14">i</span><span style="--i:15">n</span><span style="--i:16">t</span>
             </div>
-            <div class="app-actions no-print" aria-label="Print and download options">
-                <button type="button" class="utility-btn" onclick="printCurrentView()">Print</button>
-                <button type="button" class="utility-btn" onclick="downloadCurrentData()">Download CSV</button>
-            </div>
         </div>
         
-        <table id="entryFormTable">
+        <table>
             <tr>
                 <th>Select Option</th>
                 <td>
@@ -1071,10 +1034,6 @@
         <div class="sheet-header">
             <span class="close-sheet-btn" onclick="closeDynamicSheet()">&times;</span>
             <h2>Balance Sheet View</h2>
-            <div class="modal-toolbar no-print">
-                <button type="button" class="utility-btn" onclick="printCurrentView()">Print</button>
-                <button type="button" class="utility-btn" onclick="downloadCurrentData()">Download CSV</button>
-            </div>
         </div>
         
         <div class="table-responsive">
@@ -1105,11 +1064,6 @@
         <div class="banner-title" id="studioTitle">
             Maa Tarini Studio
         </div>
-        <div class="modal-toolbar no-print">
-            <button type="button" class="utility-btn" onclick="printCurrentView()">Print</button>
-            <button type="button" class="utility-btn" onclick="downloadCurrentData()">Download CSV</button>
-        </div>
-
         <div class="studio-table-container">
             <table class="studio-table">
                 <thead>
@@ -1140,11 +1094,6 @@
         <div class="banner-title">
             APP DATA
         </div>
-        <div class="modal-toolbar no-print">
-            <button type="button" class="utility-btn" onclick="printCurrentView()">Print</button>
-            <button type="button" class="utility-btn" onclick="downloadCurrentData()">Download CSV</button>
-        </div>
-
         <div class="studio-table-container">
             <table class="studio-table">
                 <thead>
@@ -1199,85 +1148,6 @@
             fetchAppData();
         }
     }, liveRefreshMs);
-
-    function getActiveExportSource() {
-        const views = [
-            { modal: 'dynamicSheetModal', table: 'balanceSheetTable', title: 'balance-sheet' },
-            { modal: 'studioModal', table: 'studioTableData', title: 'studio-data' },
-            { modal: 'appDataModal', table: 'appSummaryData', title: 'app-data' }
-        ];
-        const active = views.find(view => document.getElementById(view.modal).style.display === 'flex');
-        if (!active) {
-            return {
-                table: document.getElementById('entryFormTable'),
-                title: 'entry-form',
-                printElement: document.querySelector('.form-container')
-            };
-        }
-
-        const table = active.table === 'studioTableData' || active.table === 'appSummaryData'
-            ? document.getElementById(active.table).closest('table')
-            : document.getElementById(active.table);
-        const modal = document.getElementById(active.modal);
-        return {
-            table,
-            title: active.title,
-            printElement: modal.querySelector('.sheet-ui-container, .studio-card-modal')
-        };
-    }
-
-    function csvField(value) {
-        return '"' + String(value ?? '').replace(/"/g, '""').replace(/\s+/g, ' ').trim() + '"';
-    }
-
-    function downloadCurrentData() {
-        const source = getActiveExportSource();
-        const rows = Array.from(source.table.querySelectorAll('tr'))
-            .map(row => Array.from(row.querySelectorAll('th, td')).map(cell => cell.innerText))
-            .filter(row => row.length > 0);
-
-        if (!rows.length) {
-            alert('Download karne ke liye koi data available nahi hai.');
-            return;
-        }
-
-        const csv = '\uFEFF' + rows.map(row => row.map(csvField).join(',')).join('\r\n');
-        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
-        const link = document.createElement('a');
-        const today = new Date().toISOString().slice(0, 10);
-        const objectUrl = URL.createObjectURL(blob);
-        link.href = objectUrl;
-        link.download = `phoenix-edit-point-${source.title}-${today}.csv`;
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-        setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
-    }
-
-    function printCurrentView() {
-        const source = getActiveExportSource();
-        const printWindow = window.open('', '_blank', 'width=1100,height=800');
-        if (!printWindow) {
-            alert('Print window open nahi hui. Browser/app popup permission check karein.');
-            return;
-        }
-        printWindow.opener = null;
-
-        const title = `Phoenix Edit Point - ${source.title.replace(/-/g, ' ')}`;
-        const content = source.printElement.cloneNode(true);
-        content.querySelectorAll('.no-print, .close-sheet-btn').forEach(element => element.remove());
-        printWindow.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${title}</title><style>
-            * { box-sizing: border-box; } body { font-family: Arial, sans-serif; color: #111; margin: 24px; }
-            table { width: 100%; border-collapse: collapse; margin-top: 16px; } th, td { border: 1px solid #555; padding: 8px; text-align: left; vertical-align: top; }
-            th { background: #e8e8e8; } input, select { border: 0; width: 100%; font: inherit; color: #111; background: transparent; }
-            .brand-title, .banner-title, h2 { color: #111 !important; -webkit-text-fill-color: #111 !important; }
-            .submit-container { text-align: center; margin-top: 16px; } .submit-btn { padding: 8px 18px; } .brand-logo { max-height: 56px; }
-            @page { size: auto; margin: 12mm; }
-        </style></head><body><h1>${title}</h1>${content.outerHTML}</body></html>`);
-        printWindow.document.close();
-        printWindow.focus();
-        setTimeout(() => printWindow.print(), 300);
-    }
 
     // Direct table editing: edit a value in place, then press Enter or click away.
     // The original Google Sheet row number travels with each visible cell.
