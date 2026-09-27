@@ -7,7 +7,7 @@
   "scripts": {
     "web": "npx serve www -l 5173",
     "desktop": "electron .",
-    "desktop:build": "electron-builder --win nsis portable",
+    "desktop:build": "electron-builder --win nsis portable --publish never",
     "android:add": "cap add android",
     "android:sync": "cap sync android",
     "android:debug": "cap sync android && cd android && gradlew.bat assembleDebug",
