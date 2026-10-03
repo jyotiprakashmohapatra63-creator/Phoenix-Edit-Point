@@ -1851,87 +1851,31 @@
             </div>
         </div>
 
-        <!-- DIRECT GOOGLE SIGN-IN BUTTON -->
-        <div style="margin-bottom: 14px;">
-            <button type="button" id="btnAdminGoogleLogin" onclick="submitGoogleLogin()" style="width: 100%; padding: 11px 14px; background: #ffffff; color: #1f2937; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 13.5px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35); transition: all 0.2s;" onmouseover="this.style.background='#f8fafc'; this.style.transform='translateY(-1px)';" onmouseout="this.style.background='#ffffff'; this.style.transform='none';">
-                <svg width="18" height="18" viewBox="0 0 24 24" style="flex-shrink: 0;">
-                    <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
-                    <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.27 21.43 7.35 24 12 24z"/>
-                    <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 10.03 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
-                    <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.35 0 3.27 2.57 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
-                </svg>
-                <span>Direct Google Login (ଗୁଗୁଲ୍ ଲଗଇନ୍)</span>
-            </button>
-        </div>
-
-        <div style="display: flex; align-items: center; margin: 12px 0 14px; color: #64748b; font-size: 10.5px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">
-            <span style="flex: 1; height: 1px; background: rgba(255,255,255,0.1);"></span>
-            <span style="padding: 0 10px;">କିମ୍ବା ଇମେଲ୍ ଦ୍ୱାରା (OR EMAIL)</span>
-            <span style="flex: 1; height: 1px; background: rgba(255,255,255,0.1);"></span>
-        </div>
-
-        <!-- Auth Tabs (Login vs Register) -->
-        <div style="display: flex; gap: 8px; margin-bottom: 18px; background: rgba(15, 23, 42, 0.8); padding: 4px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06);">
-            <button type="button" id="tabAdminLogin" onclick="toggleAdminAuthSection('login')" style="flex: 1; padding: 8px; border: none; background: #0284c7; color: #ffffff; font-weight: 700; font-size: 12px; border-radius: 6px; cursor: pointer; transition: all 0.2s;">
-                <i class="fa-solid fa-right-to-bracket"></i> Login (ପ୍ରବେଶ)
-            </button>
-            <button type="button" id="tabAdminRegister" onclick="toggleAdminAuthSection('register')" style="flex: 1; padding: 8px; border: none; background: transparent; color: #94a3b8; font-weight: 700; font-size: 12px; border-radius: 6px; cursor: pointer; transition: all 0.2s;">
-                <i class="fa-solid fa-user-plus"></i> New Setup (ନୂଆ ID)
-            </button>
-        </div>
-        
-        <div class="modal-body" style="padding: 0;">
-            <!-- LOGIN SECTION -->
-            <form id="admin-login-section" onsubmit="event.preventDefault(); submitAdminLogin();" style="display: flex; flex-direction: column; gap: 12px;">
-                <div style="text-align: left;">
-                    <label style="font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 4px; display: block;">Admin Email</label>
-                    <div style="position: relative;">
-                        <i class="fa-solid fa-envelope" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #64748b; font-size: 13px; z-index: 2;"></i>
-                        <input type="email" id="adminLoginEmail" placeholder="admin@phoenixeditpoint.com" autocomplete="username" required style="width: 100%; box-sizing: border-box; padding: 10px 12px 10px 36px; background: #0b111e; border: 1px solid rgba(255,255,255,0.14); border-radius: 8px; color: #ffffff; font-size: 13px; text-align: left; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='#38bdf8';" onblur="this.style.borderColor='rgba(255,255,255,0.14)';">
-                    </div>
-                </div>
-
-                <div style="text-align: left;">
-                    <label style="font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 4px; display: block;">Password</label>
-                    <div style="position: relative;">
-                        <i class="fa-solid fa-lock" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #64748b; font-size: 13px; z-index: 2;"></i>
-                        <input type="password" id="adminLoginPassword" placeholder="••••••••" autocomplete="current-password" required style="width: 100%; box-sizing: border-box; padding: 10px 40px 10px 36px; background: #0b111e; border: 1px solid rgba(255,255,255,0.14); border-radius: 8px; color: #ffffff; font-size: 13px; text-align: left; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='#38bdf8';" onblur="this.style.borderColor='rgba(255,255,255,0.14)';">
-                        <i class="fa-solid fa-eye" id="toggleLoginPassIcon" onclick="togglePasswordVisibility('adminLoginPassword', 'toggleLoginPassIcon')" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: #64748b; cursor: pointer; font-size: 13px; z-index: 2;"></i>
-                    </div>
-                </div>
-
-                <button type="submit" id="btnAdminLoginSubmit" style="width: 100%; padding: 11px; margin-top: 6px; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); border: none; border-radius: 8px; color: #ffffff; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4); transition: transform 0.15s, box-shadow 0.15s;">
-                    <i class="fa-solid fa-shield-halved"></i> <span>Unlock Protected Data (ପ୍ରବେଶ)</span>
+        <!-- 1. PIN UNLOCK VIEW -->
+        <div id="desktopPinUnlockView" style="padding: 18px 14px; background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(56, 189, 248, 0.4); border-radius: 12px; text-align: center; margin-bottom: 14px; box-shadow: 0 4px 20px rgba(0,0,0,0.6);">
+            <div style="font-size: 13.5px; color: #38bdf8; font-weight: 700; margin-bottom: 4px;">
+                <i class="fa-solid fa-key"></i> Enter Studio PIN (ଆପଣଙ୍କ PIN ଦିଅନ୍ତୁ)
+            </div>
+            <div style="font-size: 11px; color: #94a3b8; margin-bottom: 12px;">
+                Firebase ରେ ସେଭ୍ ହୋଇଥିବା ନିଜର Secret PIN ଦିଅନ୍ତୁ।
+            </div>
+            <div style="display: flex; gap: 8px; justify-content: center; align-items: center; margin-bottom: 12px;">
+                <input type="password" id="desktopStudioPinInput" placeholder="PIN" maxlength="6" inputmode="numeric" style="width: 140px; text-align: center; font-size: 20px; letter-spacing: 4px; font-weight: bold; background: #080c14; border: 1px solid #38bdf8; border-radius: 6px; color: #ffffff; padding: 7px 10px;" onkeydown="if(event.key==='Enter')submitStudioPinUnlock();">
+                <button type="button" onclick="submitStudioPinUnlock()" style="background: #0284c7; color: white; border: none; border-radius: 6px; padding: 9px 18px; font-weight: bold; font-size: 13px; cursor: pointer; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);">
+                    <i class="fa-solid fa-unlock"></i> Unlock
                 </button>
-            </form>
+            </div>
+            <div style="display: flex; justify-content: center; gap: 12px; font-size: 11.5px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 10px;">
+                <a href="javascript:void(0)" onclick="openDesktopBrowserLogin()" style="color: #38bdf8; text-decoration: underline; font-weight: 600;">
+                    <i class="fa-brands fa-google"></i> Forgot / Reset PIN — Verify with Google
+                </a>
+            </div>
+        </div>
 
-            <!-- REGISTER / FIRST-TIME SETUP SECTION -->
-            <form id="admin-register-section" onsubmit="event.preventDefault(); submitAdminRegister();" style="display: none; flex-direction: column; gap: 12px;">
-                <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 8px; padding: 8px 12px; font-size: 11px; color: #fbbf24; line-height: 1.4; text-align: left;">
-                    <i class="fa-solid fa-circle-info"></i> ପ୍ରଥମ ଥର ପାଇଁ ନିଜ ଇମେଲ୍ ଓ ପାସୱାର୍ଡ଼ ଦେଇ Admin ID ତିଆରି କରନ୍ତୁ।
-                </div>
-
-                <div style="text-align: left;">
-                    <label style="font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 4px; display: block;">Your Admin Email</label>
-                    <div style="position: relative;">
-                        <i class="fa-solid fa-envelope" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #64748b; font-size: 13px; z-index: 2;"></i>
-                        <input type="email" id="adminRegisterEmail" placeholder="youremail@gmail.com" autocomplete="username" required style="width: 100%; box-sizing: border-box; padding: 10px 12px 10px 36px; background: #0b111e; border: 1px solid rgba(255,255,255,0.14); border-radius: 8px; color: #ffffff; font-size: 13px; text-align: left; outline: none;">
-                    </div>
-                </div>
-
-                <div style="text-align: left;">
-                    <label style="font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 4px; display: block;">Create Password (ମିନିମମ୍ 6 ଅକ୍ଷର)</label>
-                    <div style="position: relative;">
-                        <i class="fa-solid fa-lock" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #64748b; font-size: 13px; z-index: 2;"></i>
-                        <input type="password" id="adminRegisterPassword" placeholder="Minimum 6 characters" autocomplete="new-password" minlength="6" required style="width: 100%; box-sizing: border-box; padding: 10px 40px 10px 36px; background: #0b111e; border: 1px solid rgba(255,255,255,0.14); border-radius: 8px; color: #ffffff; font-size: 13px; text-align: left; outline: none;">
-                        <i class="fa-solid fa-eye" id="toggleRegPassIcon" onclick="togglePasswordVisibility('adminRegisterPassword', 'toggleRegPassIcon')" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: #64748b; cursor: pointer; font-size: 13px; z-index: 2;"></i>
-                    </div>
-                </div>
-
-                <button type="submit" id="btnAdminRegisterSubmit" style="width: 100%; padding: 11px; margin-top: 6px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border: none; border-radius: 8px; color: #ffffff; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); transition: transform 0.15s, box-shadow 0.15s;">
-                    <i class="fa-solid fa-shield-check"></i> <span>Create Admin Account (ନୂଆ ID ସୃଷ୍ଟି)</span>
-                </button>
-            </form>
+        <div style="text-align: center; margin-bottom: 12px;">
+            <a href="javascript:void(0)" onclick="openDesktopBrowserLogin()" style="color: #38bdf8; font-size: 12px; text-decoration: underline; font-weight: 600;">
+                <i class="fa-brands fa-google"></i> Login with Google (Chrome ରେ Verify କରନ୍ତୁ)
+            </a>
         </div>
 
         <div id="adminAuthMsg" style="margin-top: 14px; font-size: 12px; line-height: 1.4; min-height: 18px; text-align: center;"></div>
@@ -2681,6 +2625,8 @@
 
     function startFirestoreListener() {
         if (!isFirebaseActive || !db) return;
+        // Do not replace the current view with an unauthenticated empty snapshot.
+        if (!currentAdminUser || !isAuthorizedAdminEmail(currentAdminUser.email)) return;
         if (typeof entriesUnsubscribe === 'function') {
             try { entriesUnsubscribe(); } catch(e) {}
             entriesUnsubscribe = null;
@@ -2724,8 +2670,7 @@
                 isFirebaseActive = true;
                 updateDbBadge();
 
-                // Firestore real-time listener: starts live synchronization
-                startFirestoreListener();
+                // The listener starts after Firebase Auth verifies the owner.
                 return;
             } catch (e) {
                 console.error("Firebase init failed:", e);
@@ -3786,22 +3731,52 @@
     // Tamper-proof security: Verified cryptographic tokens of authorized Owner IDs
     // Changing external config files cannot grant unauthorized access
     const PHOENIX_SECURE_ADMIN_TOKENS = [
-        "anlvdGlwcmFrYXNob2hhcGF0cmE2M0BnbWFpbC5jb20=", // jyotiprakashmohapatra63@gmail.com
+        "anlvdGlwcmFrYXNobW9oYXBhdHJhNjNAZ21haWwuY29t", // jyotiprakashmohapatra63@gmail.com
         "YWRtaW5AcGhvZW5peGVkaXRwb2ludC5jb20="          // admin@phoenixeditpoint.com
     ];
 
     function isAuthorizedAdminEmail(email) {
         if (!email) return false;
         const normalized = email.toLowerCase().trim();
+        if (normalized === 'jyotiprakashmohapatra63@gmail.com' || normalized === 'admin@phoenixeditpoint.com') {
+            return true;
+        }
         try {
             const token = btoa(normalized);
             return PHOENIX_SECURE_ADMIN_TOKENS.includes(token);
         } catch(e) {
-            return normalized === 'jyotiprakashmohapatra63@gmail.com' || normalized === 'admin@phoenixeditpoint.com';
+            return false;
         }
     }
 
+    let isAdminAuthInitialized = false;
     function initAdminAuth() {
+        if (isAdminAuthInitialized) return;
+        isAdminAuthInitialized = true;
+
+        if (typeof checkAndHandleDesktopAuthBridge === 'function') {
+            checkAndHandleDesktopAuthBridge();
+        }
+
+        if (typeof syncStudioPinFromCloud === 'function') {
+            syncStudioPinFromCloud();
+        }
+
+        // Restore cached desktop admin session within 24 hours
+        try {
+            const savedEmail = localStorage.getItem('phoenix_admin_verified_email');
+            const savedTime = parseInt(localStorage.getItem('phoenix_admin_verified_time') || '0', 10);
+            if (savedEmail && isAuthorizedAdminEmail(savedEmail) && (Date.now() - savedTime < 24 * 60 * 60 * 1000)) {
+                currentAdminUser = {
+                    email: savedEmail,
+                    displayName: 'Jyotiprakash Mohapatra',
+                    uid: 'cached-admin-' + savedEmail
+                };
+                updateAdminAuthUI(currentAdminUser);
+                startFirestoreListener();
+            }
+        } catch(e) {}
+
         if (typeof firebase !== 'undefined' && firebase.auth) {
             try {
                 if (window.location.protocol !== 'file:') {
@@ -3906,20 +3881,21 @@
                 `ଆପଣ Admin Account (${authUser.email}) ରୁ Logout କରିବାକୁ ଚାହୁଁଛନ୍ତି କି? Logout ହେଲେ Protected Data ପୁଣି ଲକ୍ ହୋଇଯିବ।`,
                 "Admin Logout",
                 function() {
+                    try {
+                        localStorage.removeItem('phoenix_admin_verified_email');
+                        localStorage.removeItem('phoenix_admin_verified_time');
+                    } catch(e) {}
                     if (typeof firebase !== 'undefined' && firebase.auth) {
-                        firebase.auth().signOut().then(() => {
-                            currentAdminUser = null;
-                            updateAdminAuthUI(null);
-                            // Close open protected sheets
-                            if (document.getElementById('dynamicSheetModal')) document.getElementById('dynamicSheetModal').style.display = 'none';
-                            if (document.getElementById('monthlySavingModal')) document.getElementById('monthlySavingModal').style.display = 'none';
-                            if (document.getElementById('appDataModal')) document.getElementById('appDataModal').style.display = 'none';
-                            if (document.getElementById('studioModal')) document.getElementById('studioModal').style.display = 'none';
-                            showAppMessage("Admin ସଫଳତାର ସହ Logout ହୋଇଗଲା। Protected Data ବର୍ତ୍ତମାନ ଲକ୍ ଅଛି।", "success", "Logout Done");
-                        }).catch(err => {
-                            console.error("SignOut error:", err);
-                        });
+                        firebase.auth().signOut().catch(e => console.warn("signOut:", e));
                     }
+                    currentAdminUser = null;
+                    updateAdminAuthUI(null);
+                    // Close open protected sheets
+                    if (document.getElementById('dynamicSheetModal')) document.getElementById('dynamicSheetModal').style.display = 'none';
+                    if (document.getElementById('monthlySavingModal')) document.getElementById('monthlySavingModal').style.display = 'none';
+                    if (document.getElementById('appDataModal')) document.getElementById('appDataModal').style.display = 'none';
+                    if (document.getElementById('studioModal')) document.getElementById('studioModal').style.display = 'none';
+                    showAppMessage("Admin ସଫଳତାର ସହ Logout ହୋଇଗଲା। Protected Data ବର୍ତ୍ତମାନ ଲକ୍ ଅଛି।", "success", "Logout Done");
                 },
                 null,
                 "Logout",
@@ -3998,24 +3974,15 @@
         const msg = document.getElementById('adminAuthMsg');
         if (msg) msg.innerHTML = '';
         
-        toggleAdminAuthSection('login');
+        // PIN entry is always available. PIN creation/reset happens only after Google verification.
+        togglePinModalMode();
+
         const modal = document.getElementById('adminAuthModal');
         if (modal) modal.style.display = 'flex';
 
-        // Notify user if running on file:// protocol where Google Sign-in cannot work
-        if (window.location.protocol === 'file:' && msg) {
-            const liveUrl = (window.LIVE_APP_URL || 'https://jyotiprakashmohapatra63-creator.github.io/Phoenix-Edit-Point-HTML/');
-            msg.innerHTML = `
-                <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 6px; padding: 7px 10px; font-size: 11px; color: #fbbf24; text-align: left; line-height: 1.4;">
-                    <i class="fa-solid fa-circle-info"></i> Direct Google Login କେବଳ <b>Live Web Link (HTTPS)</b> ରେ କାର୍ଯ୍ୟ କରେ। 
-                    <a href="${liveUrl}" target="_blank" style="color: #38bdf8; font-weight: 700; text-decoration: underline; margin-left: 4px;">Live Link ଖୋଲନ୍ତୁ</a>
-                </div>
-            `;
-        }
-
         setTimeout(() => {
-            const emailInput = document.getElementById('adminLoginEmail');
-            if (emailInput) emailInput.focus();
+            const el = document.getElementById('desktopStudioPinInput');
+            if (el) el.focus();
         }, 150);
     }
 
@@ -4051,33 +4018,166 @@
         return err.message || "ପ୍ରବେଶ ବିଫଳ ହେଲା।";
     }
 
-    function submitGoogleLogin() {
+    function isDesktopEnvironment() {
+        return !!(
+            window.IS_PHOENIX_DESKTOP === true ||
+            window.location.protocol === 'file:' ||
+            (window.navigator && window.navigator.userAgent && /Electron/i.test(window.navigator.userAgent)) ||
+            (window.process && window.process.versions && window.process.versions.electron)
+        );
+    }
+
+    function hashStudioPin(pin) {
+        if (!pin) return '';
+        const clean = pin.toString().trim();
+        const salt = "PHOENIX_SECURE_SALT_JYOTIPRAKASH_63_";
+        let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
+        const str = salt + clean;
+        for (let i = 0; i < str.length; i++) {
+            const ch = str.charCodeAt(i);
+            h1 = Math.imul(h1 ^ ch, 2654435761);
+            h2 = Math.imul(h2 ^ ch, 1597334677);
+        }
+        h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+        h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+        return (4294967296 * (2097151 & h2) + (h1 >>> 0)).toString(16);
+    }
+
+    // PIN state is memory-only. Firebase holds a one-way hash; no browser copy exists.
+    let cloudStudioPinHash = '';
+    let studioPinUnsubscribe = null;
+    function syncStudioPinFromCloud() {
+        try {
+            if (typeof firebase !== 'undefined' && firebase.firestore) {
+                // Real-time Firebase synchronization; PIN hash stays in memory only.
+                if (!studioPinUnsubscribe) {
+                    studioPinUnsubscribe = firebase.firestore().collection('phoenix_security').doc('studio_auth')
+                        .onSnapshot((doc) => {
+                            if (!doc.exists) return;
+                            const data = doc.data();
+                            cloudStudioPinHash = String(data.pin_hash || '');
+                            // Check if unlock signal was triggered in the last 10 minutes
+                            if (data.unlocked_at && (Date.now() - data.unlocked_at < 10 * 60 * 1000)) {
+                                if (data.owner_email && isAuthorizedAdminEmail(data.owner_email)) {
+                                    console.log("Real-time cloud unlock signal received for:", data.owner_email);
+                                    unlockAdminFromDesktopBridge(data.owner_email);
+                                }
+                            }
+                        }, (err) => console.warn("Firestore pin sync error:", err));
+                }
+            }
+        } catch(e) {
+            console.warn("syncStudioPinFromCloud exception:", e);
+        }
+    }
+
+    function togglePinModalMode() {
+        const unlockView = document.getElementById('desktopPinUnlockView');
+        const msg = document.getElementById('adminAuthMsg');
+        if (msg) msg.innerHTML = '';
+        if (unlockView) unlockView.style.display = 'block';
+        setTimeout(() => {
+            const el = document.getElementById('desktopStudioPinInput');
+            if (el) el.focus();
+        }, 100);
+    }
+    window.togglePinModalMode = togglePinModalMode;
+
+    function submitStudioPinUnlock() {
+        const input = document.getElementById('desktopStudioPinInput');
+        const val = input ? input.value.trim() : '';
+        const msg = document.getElementById('adminAuthMsg');
+
+        if (!val) {
+            alert("ଦୟାକରି ଆପଣଙ୍କ PIN ଦିଅନ୍ତୁ!");
+            return;
+        }
+
+        if (!cloudStudioPinHash) {
+            if (msg) msg.innerHTML = '<span style="color: #fbbf24;"><i class="fa-solid fa-circle-info"></i> PIN Firebase ରୁ ଲୋଡ୍ ହୋଇନାହିଁ। Google verification ଦେଇ PIN reset କରନ୍ତୁ।</span>';
+            return;
+        }
+
+        if (hashStudioPin(val) === cloudStudioPinHash) {
+            unlockAdminFromDesktopBridge('jyotiprakashmohapatra63@gmail.com');
+        } else {
+            alert("❌ ଭୁଲ୍ PIN! ଦୟାକରି ସଠିକ୍ PIN ଦିଅନ୍ତୁ।");
+            if (msg) {
+                msg.innerHTML = '<span style="color: #ef4444;"><i class="fa-solid fa-circle-xmark"></i> ଭୁଲ୍ PIN! ସଠିକ୍ PIN ଦିଅନ୍ତୁ।</span>';
+            }
+        }
+    }
+    window.submitStudioPinUnlock = submitStudioPinUnlock;
+
+    function openDesktopBrowserLogin() {
+        const liveAuthUrl = 'https://jyotiprakashmohapatra63-creator.github.io/Phoenix-Edit-Point-HTML/?auth_target=desktop&port=54321&v=' + Date.now();
+        window.open(liveAuthUrl, '_blank');
+
+        const msg = document.getElementById('adminAuthMsg');
+        if (msg) {
+            msg.innerHTML = `
+                <div style="background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(56, 189, 248, 0.45); border-radius: 10px; padding: 14px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.6);">
+                    <div style="color: #38bdf8; font-weight: 700; font-size: 13.5px; margin-bottom: 6px;">
+                        <i class="fa-brands fa-chrome fa-spin" style="margin-right: 6px;"></i> Google Chrome ରେ Browser ଖୋଲିଲା...
+                    </div>
+                    <div style="color: #cbd5e1; font-size: 11.5px; line-height: 1.5; margin-bottom: 8px;">
+                        Chrome ରେ <b>jyotiprakashmohapatra63@gmail.com</b> ସହ Login କରି PIN set / reset କରନ୍ତୁ।
+                    </div>
+                    <div style="color: #4ade80; font-size: 11.5px; font-weight: 600;">
+                        <i class="fa-solid fa-spinner fa-spin"></i> Chrome ରେ Login ହେବା ମାତ୍ରେ ଏଠାରେ ସଫ୍ଟୱେର୍ ଆପେ Unlock ହୋଇଯିବ!
+                    </div>
+                </div>
+            `;
+        }
+
+        // Ensure real-time cloud listener is running
+        syncStudioPinFromCloud();
+    }
+    window.openDesktopBrowserLogin = openDesktopBrowserLogin;
+
+    async function unlockAdminFromDesktopBridge(email, idToken, accessToken) {
+        if (!isAuthorizedAdminEmail(email)) return;
+
+        if (idToken && typeof firebase !== 'undefined' && firebase.auth) {
+            try {
+                const credential = firebase.auth.GoogleAuthProvider.credential(idToken, accessToken || null);
+                const userCred = await firebase.auth().signInWithCredential(credential);
+                currentAdminUser = userCred.user;
+            } catch(e) {
+                console.warn("Desktop bridge signInWithCredential fallback:", e);
+                currentAdminUser = {
+                    email: email,
+                    displayName: 'Jyotiprakash Mohapatra',
+                    uid: 'desktop-admin-' + Date.now()
+                };
+            }
+        } else {
+            currentAdminUser = {
+                email: email,
+                displayName: 'Jyotiprakash Mohapatra',
+                uid: 'desktop-admin-' + Date.now()
+            };
+        }
+
+        localStorage.setItem('phoenix_admin_verified_email', email);
+        localStorage.setItem('phoenix_admin_verified_time', Date.now().toString());
+        updateAdminAuthUI(currentAdminUser);
+        closeAdminAuthModal();
+        showAppMessage("🎉 Google Sign-In ସଫଳ! Admin Shield Unlock ହୋଇଗଲା।", "success", "Admin Verified");
+        if (pendingTargetType) {
+            const target = pendingTargetType;
+            pendingTargetType = '';
+            openRequestedSheet(target);
+        }
+    }
+    window.unlockAdminFromDesktopBridge = unlockAdminFromDesktopBridge;
+
+    function runDirectBrowserPopupLogin() {
         const msg = document.getElementById('adminAuthMsg');
         const btn = document.getElementById('btnAdminGoogleLogin');
 
         if (typeof firebase === 'undefined' || !firebase.auth) {
             if (msg) msg.innerHTML = '<span style="color: #ef4444;"><i class="fa-solid fa-triangle-exclamation"></i> Firebase Auth ଲୋଡ୍ ହୋଇନାହିଁ। ଇଣ୍ଟରନେଟ୍ ଚେକ୍ କରନ୍ତୁ।</span>';
-            return;
-        }
-
-        // Check if running on local file:/// protocol
-        if (window.location.protocol === 'file:') {
-            const liveUrl = (window.LIVE_APP_URL || 'https://jyotiprakashmohapatra63-creator.github.io/Phoenix-Edit-Point-HTML/');
-            if (msg) {
-                msg.innerHTML = `
-                    <div style="background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.35); border-radius: 8px; padding: 12px; margin-top: 8px; text-align: left;">
-                        <div style="color: #f87171; font-weight: 700; font-size: 13px; margin-bottom: 6px;">
-                            <i class="fa-solid fa-triangle-exclamation"></i> Google Login (file://) ରେ ଚାଲେ ନାହିଁ!
-                        </div>
-                        <div style="color: #cbd5e1; font-size: 11.5px; line-height: 1.5; margin-bottom: 10px;">
-                            Google OAuth ସୁରକ୍ଷା ନିୟମ ଅନୁସାରେ ଏହା କେବଳ <b>Live Web Link (HTTPS)</b> ରେ ହିଁ କାମ କରିବ।
-                        </div>
-                        <a href="${liveUrl}" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 8px; background: #0284c7; color: #ffffff; padding: 9px 12px; border-radius: 6px; font-weight: 700; text-decoration: none; font-size: 12px; box-shadow: 0 2px 10px rgba(2, 132, 199, 0.4);">
-                            <i class="fa-solid fa-arrow-up-right-from-square"></i> Open Live Web App (HTTPS)
-                        </a>
-                    </div>
-                `;
-            }
             return;
         }
 
@@ -4089,14 +4189,12 @@
         if (msg) msg.innerHTML = '<span style="color: #38bdf8;"><i class="fa-solid fa-spinner fa-spin"></i> Google Account ଚୟନ କରନ୍ତୁ...</span>';
 
         const provider = new firebase.auth.GoogleAuthProvider();
-        // Force account selection dialog so user can select their registered email
         provider.setCustomParameters({ prompt: 'select_account' });
 
         firebase.auth().signInWithPopup(provider)
             .then(async (cred) => {
                 const userEmail = (cred.user && cred.user.email) ? cred.user.email.toLowerCase().trim() : '';
                 
-                // STRICT SECURITY: Verify if user's Google account is authorized
                 if (!isAuthorizedAdminEmail(userEmail)) {
                     console.warn("Unauthorized Google login attempt:", userEmail);
                     await firebase.auth().signOut();
@@ -4134,7 +4232,7 @@
             .catch(err => {
                 console.error("Google signin failed:", err);
                 if (err.code === 'auth/popup-blocked') {
-                    if (msg) msg.innerHTML = '<span style="color: #fbbf24;"><i class="fa-solid fa-triangle-exclamation"></i> Popup block ହୋଇଛି। ଦୟାକରି ତଳେ ଥିବା Email & Password ଦ୍ୱାରା Login କରନ୍ତୁ କିମ୍ବା Chrome Browser ରେ ଖୋଲନ୍ତୁ।</span>';
+                    openDesktopBrowserLogin();
                     return;
                 }
                 const friendly = getAuthFriendlyMessage(err);
@@ -4147,6 +4245,257 @@
                 }
             });
     }
+
+    function submitGoogleLogin() {
+        if (isDesktopEnvironment()) {
+            openDesktopBrowserLogin();
+            return;
+        }
+        runDirectBrowserPopupLogin();
+    }
+
+    function checkAndHandleDesktopAuthBridge() {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('auth_target') !== 'desktop') return;
+
+        // Prevent duplicate overlay
+        if (document.getElementById('phoenixDesktopBridgeScreen')) return;
+
+        const desktopPort = urlParams.get('port') || '54321';
+        
+        const overlay = document.createElement('div');
+        overlay.id = 'phoenixDesktopBridgeScreen';
+        overlay.style.cssText = 'position:fixed;inset:0;background:#060911;z-index:99999999;display:flex;align-items:center;justify-content:center;padding:20px;font-family:Arial,sans-serif;color:white;overflow-y:auto;';
+        
+        overlay.innerHTML = `
+            <div style="background:#0f172a;border:1px solid rgba(56,189,248,0.4);border-radius:16px;padding:32px 26px;max-width:440px;width:100%;text-align:center;box-shadow:0 25px 60px rgba(0,0,0,0.85);margin:auto;">
+                <img src="PhoenixLOGO-full-v2.png" style="max-height:65px;margin-bottom:14px;display:block;margin-left:auto;margin-right:auto;" onerror="if(typeof PHOENIX_FULL_LOGO_DATA!=='undefined')this.src=PHOENIX_FULL_LOGO_DATA;">
+                <div style="display:inline-block;padding:4px 12px;background:rgba(56,189,248,0.12);border:1px solid rgba(56,189,248,0.3);border-radius:20px;font-size:11px;font-weight:700;color:#38bdf8;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px;">
+                    <i class="fa-solid fa-desktop"></i> Desktop App Google Login & PIN Setup
+                </div>
+                <h2 style="margin:0 0 8px 0;font-size:20px;color:#f8fafc;">Phoenix Edit Point Softwear</h2>
+                <p style="color:#94a3b8;font-size:12.5px;line-height:1.5;margin:0 0 20px 0;">
+                    ଏଠାରେ ଆପଣଙ୍କ ଅଧିକୃତ Google Account (<b>jyotiprakashmohapatra63@gmail.com</b>) ସହ Sign-In କରନ୍ତୁ କିମ୍ବା PIN ବନାନ୍ତୁ।
+                </p>
+                
+                <div id="bridgeActionContainer">
+                    <button type="button" id="btnExecuteBridgeLogin" onclick="executeBridgeGoogleLogin('${desktopPort}', false)" style="width:100%;padding:13px 18px;background:#ffffff;color:#1e293b;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 4px 15px rgba(0,0,0,0.4);transition:all 0.2s;">
+                        <svg width="20" height="20" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+                            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.27 21.43 7.35 24 12 24z"/>
+                            <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 10.03 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+                            <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.35 0 3.27 2.57 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                        </svg>
+                        <span>Sign in with Google</span>
+                    </button>
+                    <div style="margin-top: 10px;">
+                        <a href="javascript:void(0)" onclick="executeBridgeGoogleLogin('${desktopPort}', true)" style="color: #38bdf8; font-size: 11.5px; text-decoration: underline;">
+                            Popup ନ ଖୋଲିଲେ ଏଠାରେ Direct Redirect କରନ୍ତୁ
+                        </a>
+                    </div>
+                </div>
+                
+                <div id="bridgeStatusMessage" style="margin-top:16px;min-height:20px;font-size:12px;"></div>
+            </div>
+        `;
+        
+        document.body.appendChild(overlay);
+
+        if (typeof firebase !== 'undefined' && firebase.auth) {
+            firebase.auth().getRedirectResult().then(async (cred) => {
+                if (cred && cred.user) {
+                    handleSuccessfulBridgeAuth(cred.user, cred.credential, desktopPort);
+                }
+            }).catch(e => console.warn("Bridge getRedirectResult:", e));
+
+            firebase.auth().onAuthStateChanged((user) => {
+                if (user && user.email && isAuthorizedAdminEmail(user.email)) {
+                    handleSuccessfulBridgeAuth(user, null, desktopPort);
+                }
+            });
+        }
+    }
+
+    function handleSuccessfulBridgeAuth(user, credential, desktopPort) {
+        const userEmail = (user && user.email) ? user.email.toLowerCase().trim() : '';
+        const status = document.getElementById('bridgeStatusMessage');
+        const container = document.getElementById('bridgeActionContainer');
+
+        if (!isAuthorizedAdminEmail(userEmail)) {
+            if (typeof firebase !== 'undefined' && firebase.auth) firebase.auth().signOut().catch(() => {});
+            if (status) {
+                status.innerHTML = `
+                    <div style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.4);border-radius:8px;padding:12px;margin-top:8px;">
+                        <div style="color:#ef4444;font-weight:700;"><i class="fa-solid fa-ban"></i> ⛔ Access Denied!</div>
+                        <div style="color:#fca5a5;font-size:12px;margin-top:4px;"><b>${userEmail}</b> ଅଧିକୃତ Admin ନୁହେଁ।</div>
+                    </div>
+                `;
+            }
+            return;
+        }
+
+        // 1. Send IMMEDIATE unlock signal to Desktop App via Firestore!
+        if (typeof firebase !== 'undefined' && firebase.firestore) {
+            try {
+                firebase.firestore().collection('phoenix_security').doc('studio_auth').set({
+                    owner_email: userEmail,
+                    unlocked_at: Date.now(),
+                    last_verified: firebase.firestore.FieldValue.serverTimestamp()
+                }, { merge: true }).catch(err => console.warn("Firestore bridge unlock signal:", err));
+            } catch(e) {}
+        }
+
+        // 2. Also try loopback ping via fetch and image beacon
+        try {
+            fetch(`http://127.0.0.1:${desktopPort}/auth-callback?email=${encodeURIComponent(userEmail)}`, { mode: 'no-cors' }).catch(() => {});
+            const img = new Image();
+            img.src = `http://127.0.0.1:${desktopPort}/auth-callback?email=${encodeURIComponent(userEmail)}&t=${Date.now()}`;
+        } catch(e) {}
+
+        // 3. Show PIN Setup form
+        if (container) {
+            container.innerHTML = `
+                <div style="background: rgba(15, 23, 42, 0.98); border: 1px solid rgba(56, 189, 248, 0.45); border-radius: 14px; padding: 22px; text-align: center; box-shadow: 0 4px 30px rgba(0,0,0,0.8);">
+                    <div style="font-size: 38px; margin-bottom: 6px;">✅</div>
+                    <div style="color: #4ade80; font-weight: 700; font-size: 16px; margin-bottom: 4px;">
+                        Google Login Verified!
+                    </div>
+                    <div style="color: #cbd5e1; font-size: 12.5px; margin-bottom: 12px;">
+                        Account: <b>${userEmail}</b>
+                    </div>
+                    <div style="background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.35); border-radius: 8px; padding: 10px; color: #4ade80; font-size: 12px; font-weight: 600; margin-bottom: 16px;">
+                        <i class="fa-solid fa-circle-check"></i> Desktop Software କୁ Unlock Signal ପଠାଯାଇଛି!
+                    </div>
+                    
+                    <div style="background: rgba(2, 132, 199, 0.12); border: 1px dashed rgba(56, 189, 248, 0.45); border-radius: 10px; padding: 18px 14px; margin-bottom: 12px;">
+                        <div style="color: #38bdf8; font-weight: 700; font-size: 14px; margin-bottom: 6px;">
+                            <i class="fa-solid fa-key"></i> ନିଜର ୪ ରୁ ୬ ଅଙ୍କ Studio PIN ବନାନ୍ତୁ (Set PIN)
+                        </div>
+                        <div style="color: #94a3b8; font-size: 11.5px; line-height: 1.4; margin-bottom: 14px;">
+                            ଏହି PIN ଦ୍ୱାରା ଆପଣ ଭବିଷ୍ୟତରେ ବିନା Google Login ରେ ସିଧାସଳଖ Desktop App ଖୋଲିପାରିବେ।
+                        </div>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 10px; align-items: center; max-width: 280px; margin: 0 auto;">
+                            <input type="password" id="bridgeNewPinInput" placeholder="୪-୬ ଅଙ୍କ ନୂଆ PIN" maxlength="6" inputmode="numeric" style="width: 100%; text-align: center; font-size: 20px; letter-spacing: 5px; font-weight: bold; background: #080c14; border: 1px solid #38bdf8; border-radius: 8px; color: #ffffff; padding: 9px 12px;" autofocus>
+                            
+                            <input type="password" id="bridgeConfirmPinInput" placeholder="PIN ପୁଣି ଥରେ ଦିଅନ୍ତୁ (Confirm)" maxlength="6" inputmode="numeric" style="width: 100%; text-align: center; font-size: 20px; letter-spacing: 5px; font-weight: bold; background: #080c14; border: 1px solid #38bdf8; border-radius: 8px; color: #ffffff; padding: 9px 12px;" onkeydown="if(event.key==='Enter')saveOwnerStudioPinFromBridge('${desktopPort}', '${userEmail}');">
+                            
+                            <button type="button" id="btnBridgeSavePin" onclick="saveOwnerStudioPinFromBridge('${desktopPort}', '${userEmail}')" style="width: 100%; background: #0284c7; color: white; border: none; border-radius: 8px; padding: 11px 18px; font-weight: bold; font-size: 14px; cursor: pointer; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4); margin-top: 4px;">
+                                💾 PIN ସେଭ୍ କରନ୍ତୁ (Save PIN)
+                            </button>
+                        </div>
+                        <div id="bridgePinSaveStatus" style="margin-top: 10px; font-size: 12px; min-height: 18px;"></div>
+                    </div>
+                </div>
+            `;
+        }
+        if (status) status.innerHTML = '';
+    }
+
+    function saveOwnerStudioPinFromBridge(desktopPort, userEmail) {
+        if (!isAuthorizedAdminEmail(userEmail)) {
+            alert("⛔ Access Denied! Only authorized email can set PIN.");
+            return;
+        }
+
+        const pin1El = document.getElementById('bridgeNewPinInput');
+        const pin2El = document.getElementById('bridgeConfirmPinInput');
+        const status = document.getElementById('bridgePinSaveStatus');
+        const btn = document.getElementById('btnBridgeSavePin');
+
+        const pin1 = pin1El ? pin1El.value.trim() : '';
+        const pin2 = pin2El ? pin2El.value.trim() : '';
+
+        if (!pin1 || pin1.length < 4 || pin1.length > 6 || !/^\d+$/.test(pin1)) {
+            if (status) status.innerHTML = '<span style="color:#ef4444;"><i class="fa-solid fa-triangle-exclamation"></i> ଦୟାକରି ୪ ରୁ ୬ ଅଙ୍କର କେବଳ ସଂଖ୍ୟା (Numeric PIN) ଦିଅନ୍ତୁ!</span>';
+            return;
+        }
+        if (pin1 !== pin2) {
+            if (status) status.innerHTML = '<span style="color:#ef4444;"><i class="fa-solid fa-triangle-exclamation"></i> ଉଭୟ PIN ସମାନ ହେଉନାହିଁ! ଦୟାକରି ଯାଞ୍ଚ କରି ପୁଣି ଦିଅନ୍ତୁ।</span>';
+            return;
+        }
+
+        if (btn) {
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ସେଭ୍ ହେଉଛି...';
+        }
+
+        const pinHash = hashStudioPin(pin1);
+
+        // Save a one-way PIN hash in Firebase only. The PIN itself is never stored.
+        if (typeof firebase !== 'undefined' && firebase.firestore) {
+            try {
+                firebase.firestore().collection('phoenix_security').doc('studio_auth').set({
+                    owner_email: userEmail,
+                    pin_hash: pinHash,
+                    unlocked_at: Date.now(),
+                    updated_at: firebase.firestore.FieldValue.serverTimestamp()
+                }, { merge: true }).catch(err => console.warn("Firestore save error:", err));
+            } catch(e) {}
+        }
+
+        // Notify Desktop App that Google verification completed.
+        try {
+            fetch(`http://127.0.0.1:${desktopPort}/auth-callback?email=${encodeURIComponent(userEmail)}`, { mode: 'no-cors' }).catch(() => {});
+            const img = new Image();
+            img.src = `http://127.0.0.1:${desktopPort}/auth-callback?email=${encodeURIComponent(userEmail)}&t=${Date.now()}`;
+        } catch(e) {}
+
+        // 4. Show Success Screen
+        const container = document.getElementById('bridgeActionContainer');
+        if (container) {
+            container.innerHTML = `
+                <div style="background: rgba(34, 197, 94, 0.12); border: 1px solid rgba(34, 197, 94, 0.4); border-radius: 12px; padding: 24px; text-align: center;">
+                    <div style="font-size: 44px; margin-bottom: 8px;">🎉</div>
+                    <h3 style="color: #4ade80; margin: 0 0 8px 0; font-size: 18px;">PIN ସଫଳତାର ସହ ସେଟ୍ ହୋଇଗଲା!</h3>
+                    <p style="color: #cbd5e1; font-size: 13px; line-height: 1.5; margin: 0 0 16px 0;">
+                        ଆପଣଙ୍କ Studio PIN Firebase ରେ ସୁରକ୍ଷିତ ଭାବରେ update ହୋଇଛି।
+                    </p>
+                    <p style="color: #4ade80; font-size: 13px; font-weight: 600; margin: 0 0 14px 0;">
+                        Desktop App ସଫଳତାର ସହ Unlock ହୋଇଗଲା!
+                    </p>
+                    <button onclick="window.close()" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 9px 24px; border-radius: 6px; font-size: 13px; font-weight: bold; cursor: pointer;">
+                        Window ବନ୍ଦ କରନ୍ତୁ
+                    </button>
+                </div>
+            `;
+        }
+    }
+    window.saveOwnerStudioPinFromBridge = saveOwnerStudioPinFromBridge;
+
+    function executeBridgeGoogleLogin(desktopPort, forceRedirect) {
+        const status = document.getElementById('bridgeStatusMessage');
+        if (typeof firebase === 'undefined' || !firebase.auth) {
+            if (status) status.innerHTML = '<span style="color:#ef4444;">Firebase Auth ଲୋଡ୍ ହୋଇନାହିଁ। Refresh କରନ୍ତୁ।</span>';
+            return;
+        }
+
+        const provider = new firebase.auth.GoogleAuthProvider();
+        provider.setCustomParameters({ prompt: 'select_account' });
+
+        if (forceRedirect) {
+            if (status) status.innerHTML = '<span style="color:#38bdf8;"><i class="fa-solid fa-spinner fa-spin"></i> Google Login କୁ ଯାଉଛି...</span>';
+            firebase.auth().signInWithRedirect(provider);
+            return;
+        }
+
+        if (status) status.innerHTML = '<span style="color:#38bdf8;"><i class="fa-solid fa-spinner fa-spin"></i> Google Account ଚୟନ କରନ୍ତୁ...</span>';
+
+        firebase.auth().signInWithPopup(provider)
+            .then((cred) => {
+                handleSuccessfulBridgeAuth(cred.user, cred.credential, desktopPort);
+            })
+            .catch(err => {
+                console.error("Bridge login error:", err);
+                if (err.code === 'auth/popup-blocked' || err.code === 'auth/cancelled-popup-request') {
+                    if (status) status.innerHTML = '<span style="color:#fbbf24;"><i class="fa-solid fa-spinner fa-spin"></i> Popup block ହୋଇଥିବାରୁ Direct Redirect କରାଯାଉଛି...</span>';
+                    firebase.auth().signInWithRedirect(provider);
+                    return;
+                }
+                if (status) status.innerHTML = `<span style="color:#ef4444;"><i class="fa-solid fa-circle-xmark"></i> ${getAuthFriendlyMessage(err)}</span>`;
+            });
+    }
+    window.executeBridgeGoogleLogin = executeBridgeGoogleLogin;
 
     function submitAdminLogin() {
         const email = (document.getElementById('adminLoginEmail').value || '').trim();
