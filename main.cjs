@@ -1,9 +1,10 @@
 const { app, BrowserWindow, shell } = require('electron');
 const path = require('path');
 
-// Once GitHub Pages is enabled, packaged desktop apps load the latest web code
-// at launch. If the device is offline or Pages is temporarily unavailable, the
-// copy bundled inside the EXE remains available as a fallback.
+// Clean modern Chrome User Agent so Google OAuth allows sign-in seamlessly inside Electron
+const CHROME_USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36';
+app.userAgentFallback = CHROME_USER_AGENT;
+
 const LIVE_APP_URL = 'https://jyotiprakashmohapatra63-creator.github.io/Phoenix-Edit-Point-HTML/';
 
 function createWindow() {
@@ -20,34 +21,48 @@ function createWindow() {
     }
   });
 
+  window.webContents.setUserAgent(CHROME_USER_AGENT);
+
   const loadApp = async () => {
-    if (app.isPackaged) {
-      try {
-        await window.loadURL(`${LIVE_APP_URL}?v=${Date.now()}`);
-        return;
-      } catch (error) {
-        console.warn('Live app could not be loaded; using bundled copy instead.', error);
-      }
+    try {
+      await window.loadURL(`${LIVE_APP_URL}?v=${Date.now()}`);
+      return;
+    } catch (error) {
+      console.warn('Live app could not be loaded; using bundled copy instead.', error);
     }
     await window.loadFile(path.join(__dirname, 'www', 'index.html'));
   };
 
   loadApp();
 
+  // Allow Google Auth and Firebase popup windows inside Electron
   window.webContents.setWindowOpenHandler(({ url }) => {
-    if (url === 'about:blank') {
+    if (
+      url === 'about:blank' ||
+      url.includes('accounts.google.com') ||
+      url.includes('firebaseapp.com') ||
+      url.includes('google.com')
+    ) {
       return {
         action: 'allow',
         overrideBrowserWindowOptions: {
           autoHideMenuBar: true,
-          width: 1100,
-          height: 800,
-          webPreferences: { contextIsolation: true, nodeIntegration: false, sandbox: true }
+          width: 520,
+          height: 680,
+          webPreferences: {
+            contextIsolation: true,
+            nodeIntegration: false,
+            sandbox: true
+          }
         }
       };
     }
     if (/^https?:/i.test(url)) shell.openExternal(url);
     return { action: 'deny' };
+  });
+
+  window.webContents.on('did-create-window', (childWindow) => {
+    childWindow.webContents.setUserAgent(CHROME_USER_AGENT);
   });
 }
 
