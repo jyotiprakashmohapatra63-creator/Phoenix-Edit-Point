@@ -33,7 +33,7 @@ function startAuthLoopbackServer(mainWindow) {
       if (reqUrl.pathname === '/auth-callback') {
         const email = (reqUrl.searchParams.get('email') || '').toLowerCase().trim();
         
-        if (email === 'jyotiprakashmohapatra63@gmail.com' || email === 'admin@phoenixeditpoint.com') {
+        if (email === 'jyotiprakashmohapatra63@gmail.com') {
           if (mainWindow && !mainWindow.isDestroyed()) {
             mainWindow.webContents.executeJavaScript(`
               try {
@@ -115,8 +115,22 @@ function createWindow() {
   loadApp();
   startAuthLoopbackServer(window);
 
-  // External URLs (OAuth / Chrome Browser) open directly in system browser (Google Chrome)
+  // Google & Firebase Auth popups open directly inside Electron window so session is persisted
   window.webContents.setWindowOpenHandler(({ url }) => {
+    if (url.includes('accounts.google.com') || url.includes('firebaseapp.com')) {
+      return {
+        action: 'allow',
+        overrideBrowserWindowOptions: {
+          width: 500,
+          height: 650,
+          autoHideMenuBar: true,
+          webPreferences: {
+            nodeIntegration: false,
+            contextIsolation: true
+          }
+        }
+      };
+    }
     if (/^https?:/i.test(url)) {
       shell.openExternal(url);
     }
