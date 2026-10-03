@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -1310,18 +1310,55 @@
             }
 
             .balance-sheet-table td, .studio-table td {
-                display: grid;
-                grid-template-columns: minmax(110px, 42%) minmax(0, 58%);
+                display: grid !important;
+                grid-template-columns: 130px minmax(0, 1fr) !important;
                 align-items: center;
-                gap: 8px;
-                width: 100%;
+                gap: 10px;
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
                 min-height: 42px;
-                padding: 9px 10px;
+                padding: 10px 12px;
                 border: 0;
                 border-bottom: 1px solid #30363d;
                 white-space: normal;
-                overflow-wrap: anywhere;
-                box-sizing: border-box;
+                box-sizing: border-box !important;
+            }
+
+            .studio-table th.col-date, .studio-table td.col-date,
+            .studio-table th.col-amount, .studio-table td.col-amount,
+            .studio-table th.col-received, .studio-table td.col-received,
+            .studio-table th.col-balance, .studio-table td.col-balance,
+            .studio-table th.col-delivery, .studio-table td.col-delivery,
+            .balance-sheet-table td.col-date, .balance-sheet-table td.col-balance,
+            .balance-sheet-table td.col-amount, .balance-sheet-table td.col-received {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+            }
+
+            .studio-table td.col-date, .balance-sheet-table td.col-date,
+            .studio-table td.col-balance, .balance-sheet-table td.col-balance,
+            .studio-table td.col-amount, .balance-sheet-table td.col-amount,
+            .studio-table td.col-received, .balance-sheet-table td.col-received {
+                white-space: nowrap !important;
+                word-break: normal !important;
+                overflow-wrap: normal !important;
+            }
+
+            /* Desktop column constraints must not shrink the value side of a
+               mobile row.  Without these resets dates wrap one character per
+               line and the action controls can fall outside the viewport. */
+            .studio-table th[class], .studio-table td[class] {
+                width: 100%;
+                min-width: 0;
+                max-width: none;
+            }
+
+            .studio-table td.col-date,
+            .studio-table td.col-delivery,
+            .studio-table td.col-status {
+                padding: 9px 10px;
             }
 
             .balance-sheet-table tr td:last-child,
@@ -1856,6 +1893,48 @@
         @media (max-width: 820px) {
             .desk-body { flex-direction: column; }
             .custom-color-controls { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 600px) {
+            #paymentDeskModal {
+                padding: 0;
+                align-items: stretch;
+            }
+            .payment-desk-container {
+                width: 100vw;
+                height: 100dvh;
+                border: 0;
+                border-radius: 0;
+            }
+            .desk-header {
+                padding: 12px 46px 12px 14px;
+            }
+            .desk-title {
+                font-size: 15px;
+                letter-spacing: 0.7px;
+            }
+            .desk-body {
+                gap: 16px;
+                padding: 14px;
+            }
+            .desk-controls,
+            .desk-preview {
+                width: 100%;
+                min-width: 0;
+            }
+            .control-card {
+                padding: 14px;
+            }
+            .desk-actions-grid {
+                grid-template-columns: 1fr;
+            }
+            .desk-action-btn {
+                min-height: 46px;
+                font-size: 13px;
+            }
+            #paymentCard {
+                width: 100%;
+            }
         }
     </style>
 
@@ -4083,35 +4162,6 @@
         "YWRtaW5AcGhvZW5peGVkaXRwb2ludC5jb20="          // admin@phoenixeditpoint.com
     ];
 
-        // ==========================================
-    // ADMIN AUTH, PIN & SECURITY CONTROLLER
-    // ==========================================
-    const AUTHORIZED_ADMIN_EMAILS = [
-        'jyotiprakashmohapatra63@gmail.com',
-        'admin@phoenixeditpoint.com'
-    ];
-
-    function isAuthorizedAdminEmail(email) {
-        if (!email) return false;
-        const clean = email.toString().toLowerCase().trim();
-        return AUTHORIZED_ADMIN_EMAILS.includes(clean);
-    }
-
-    function isDeviceActivated() {
-        try {
-            const owner = localStorage.getItem('phoenix_device_activated_owner');
-            return !!(owner && isAuthorizedAdminEmail(owner));
-        } catch(e) {
-            return false;
-        }
-    }
-
-    function markDeviceActivated(email) {
-        try {
-            localStorage.setItem('phoenix_device_activated_owner', (email || 'jyotiprakashmohapatra63@gmail.com').toLowerCase().trim());
-        } catch(e) {}
-    }
-
     let cloudStudioPin = '';
     let cloudStudioPinHash = '';
     let studioPinUnsubscribe = null;
@@ -4177,8 +4227,22 @@
             syncStudioPinFromCloud();
         }
 
-        if (!entriesUnsubscribe) {
-            startFirestoreListener();
+        // Set persistence to LOCAL so session survives across app reloads
+        if (typeof firebase !== 'undefined' && firebase.auth) {
+            try { firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL); } catch(e){}
+            
+            // Listen for auth state
+            try {
+                firebase.auth().onAuthStateChanged(user => {
+                    if (user && isAuthorizedAdminEmail(user.email)) {
+                        currentAdminUser = user;
+                        markDeviceActivated(user.email);
+                        startFirestoreListener();
+                        syncStudioPinFromCloud();
+                        syncStudiosFromCloud();
+                    }
+                });
+            } catch(e){}
         }
 
         // AUTO-OPEN POPUP ON STARTUP (CENTERED WITH BACKGROUND BLUR)
@@ -4267,6 +4331,7 @@
         // 1. Try to Sign In with Email & Password
         firebase.auth().signInWithEmailAndPassword(email, pVal)
             .then(cred => {
+                try { localStorage.setItem('phoenix_saved_admin_pass', pVal); } catch(e){}
                 handleUserPassSuccess(cred.user);
             })
             .catch(err => {
@@ -4369,7 +4434,7 @@
     }
     window.showUserPassLoginView = showUserPassLoginView;
 
-    function openStartupAuthModal() {
+        function openStartupAuthModal() {
         const modal = document.getElementById('adminAuthModal');
         if (!modal) return;
 
@@ -4388,28 +4453,26 @@
 
         const isAuthed = typeof firebase !== 'undefined' && firebase.auth && firebase.auth().currentUser && isAuthorizedAdminEmail(firebase.auth().currentUser.email);
 
-        if (!isAuthed && !isDeviceActivated()) {
-            // Ask for Username & Password
-            if (badge) badge.innerHTML = '<i class="fa-solid fa-lock"></i> Admin Authentication';
-            if (loginView) loginView.style.display = 'block';
-            if (pinView) pinView.style.display = 'none';
+        if (!isAuthed) {
+            // Check if saved password exists in localStorage for auto-login
+            let savedPass = '';
+            try { savedPass = localStorage.getItem('phoenix_saved_admin_pass') || ''; } catch(e){}
 
-            const pInput = document.getElementById('adminPasswordInput');
-            if (pInput) {
-                pInput.value = '';
-                setTimeout(() => pInput.focus(), 250);
+            if (savedPass && typeof firebase !== 'undefined' && firebase.auth) {
+                if (badge) badge.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Authenticating...';
+                firebase.auth().signInWithEmailAndPassword(DEFAULT_ADMIN_EMAIL, savedPass)
+                    .then(cred => {
+                        handleUserPassSuccess(cred.user);
+                    })
+                    .catch(err => {
+                        console.warn("Desktop auto-auth failed, showing user/pass view:", err);
+                        showUserPassLoginView();
+                    });
+            } else {
+                showUserPassLoginView();
             }
         } else {
-            // Already authenticated / activated: Ask for PIN in center with blurred background
-            if (badge) badge.innerHTML = '<i class="fa-solid fa-key"></i> Studio Security PIN';
-            if (loginView) loginView.style.display = 'none';
-            if (pinView) pinView.style.display = 'block';
-
-            const pinInput = document.getElementById('desktopStudioPinInput');
-            if (pinInput) {
-                pinInput.value = '';
-                setTimeout(() => pinInput.focus(), 250);
-            }
+            showPinUnlockView();
         }
 
         modal.style.display = 'flex';
@@ -5945,81 +6008,187 @@
         }
     }
 
+        function triggerBlobDownload(blob, filename) {
+        if (!blob) return;
+        const blobUrl = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = blobUrl;
+        link.download = filename;
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        setTimeout(() => {
+            try { document.body.removeChild(link); } catch(e) {}
+            URL.revokeObjectURL(blobUrl);
+        }, 3000);
+    }
+
     async function downloadQrOnly() {
         try {
             const canvas = document.getElementById('qrCanvas');
-            if (!canvas) return;
-            const dataUrl = canvas.toDataURL('image/png');
-            const link = document.createElement('a');
-            link.download = `Phoenix_QR_${Date.now()}.png`;
-            link.href = dataUrl;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            showAppMessage("QR Code PNG ସଫଳତାର ସହ Download ହେଲା!", "success", "QR Downloaded");
+            if (!canvas) throw new Error("QR Canvas not ready");
+            const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+            if (!blob) throw new Error("Could not create image blob");
+            triggerBlobDownload(blob, `Phoenix_QR_${Date.now()}.png`);
+            showAppMessage("QR Code PNG à¬¸à¬«à¬³à¬¤à¬¾à¬° à¬¸à¬¹ Download à¬¹à­‡à¬²à¬¾!", "success", "QR Downloaded");
         } catch(err) {
             console.error(err);
-            showAppMessage("QR Download କରିବାରେ ଅସୁବିଧା ହେଲା: " + err.message, "error", "ତ୍ରୁଟି");
+            showAppMessage("QR Download Error: " + err.message, "error", "Error");
         }
+    }
+
+    // Direct Canvas Synth Slate Poster Fallback (Runs fast & works 100% on every phone without html2canvas)
+    async function createDirectSlateCanvas() {
+        const upiEl = document.getElementById('qrUpiId');
+        const upi = (upiEl ? upiEl.value.trim() : '') || '9348013917@nyes';
+        const amtEl = document.getElementById('qrAmountInput');
+        const numAmt = amtEl ? parseFloat(amtEl.value) : 0;
+        const noteEl = document.getElementById('qrNoteInput');
+        const noteVal = noteEl ? noteEl.value.trim() : '';
+
+        const canvas = document.createElement('canvas');
+        canvas.width = 680;
+        canvas.height = 960;
+        const ctx = canvas.getContext('2d');
+
+        // Background
+        ctx.fillStyle = '#0f0c0a';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Outer Border
+        ctx.strokeStyle = '#c9a050';
+        ctx.lineWidth = 4;
+        ctx.strokeRect(16, 16, canvas.width - 32, canvas.height - 32);
+
+        // Header Banner Background
+        const grad = ctx.createLinearGradient(0, 20, 0, 150);
+        grad.addColorStop(0, '#5a1315');
+        grad.addColorStop(1, '#1b090a');
+        ctx.fillStyle = grad;
+        ctx.fillRect(20, 20, canvas.width - 40, 130);
+
+        // Header Text
+        ctx.fillStyle = '#34d399';
+        ctx.font = 'bold 15px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('ðŸ›¡ SECURE UPI TRANSFER', canvas.width / 2, 56);
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 30px "Cinzel", Georgia, serif';
+        ctx.fillText('PHOENIX EDIT POINT', canvas.width / 2, 98);
+
+        ctx.fillStyle = '#f5df97';
+        ctx.font = 'bold 13px Arial';
+        ctx.fillText('VERIFIED STUDIO MERCHANT', canvas.width / 2, 126);
+
+        // Amount Display
+        ctx.fillStyle = '#f5df97';
+        ctx.font = 'bold 36px Arial';
+        if (!isNaN(numAmt) && numAmt > 0) {
+            ctx.fillText('â‚¹ ' + numAmt.toLocaleString('en-IN'), canvas.width / 2, 210);
+        } else {
+            ctx.fillText('ANY AMOUNT', canvas.width / 2, 210);
+        }
+
+        // Note
+        ctx.fillStyle = '#cbd5e1';
+        ctx.font = 'italic 16px Arial';
+        const noteText = noteVal ? `â€œ${noteVal}â€` : 'Scan and enter the amount in your UPI app';
+        ctx.fillText(noteText, canvas.width / 2, 245);
+
+        // QR Code box background
+        ctx.fillStyle = '#ffffff';
+        const qrBoxSize = 420;
+        const qrBoxX = (canvas.width - qrBoxSize) / 2;
+        const qrBoxY = 275;
+        ctx.fillRect(qrBoxX, qrBoxY, qrBoxSize, qrBoxSize);
+        ctx.strokeStyle = '#c9a050';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(qrBoxX - 4, qrBoxY - 4, qrBoxSize + 8, qrBoxSize + 8);
+
+        // Draw the QR Canvas into this
+        const srcQr = document.getElementById('qrCanvas');
+        if (srcQr) {
+            ctx.drawImage(srcQr, qrBoxX + 10, qrBoxY + 10, qrBoxSize - 20, qrBoxSize - 20);
+        }
+
+        // UPI Address Bar
+        ctx.fillStyle = '#1c1512';
+        ctx.fillRect(50, 725, canvas.width - 100, 65);
+        ctx.strokeStyle = '#c9a050';
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(50, 725, canvas.width - 100, 65);
+
+        ctx.fillStyle = '#c9a050';
+        ctx.font = 'bold 12px Arial';
+        ctx.fillText('UPI VIRTUAL PAYMENT ADDRESS', canvas.width / 2, 748);
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 20px "Courier Prime", monospace';
+        ctx.fillText(upi, canvas.width / 2, 775);
+
+        // Supported Apps Footer
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = 'bold 15px Arial';
+        ctx.fillText('GPay  â–  PhonePe  â–  Paytm  â–  BHIM', canvas.width / 2, 835);
+
+        ctx.fillStyle = '#64748b';
+        ctx.font = '12px Arial';
+        ctx.fillText('OFFICIAL STUDIO PAYMENT PORTAL â€¢ PHOENIX EDIT POINT', canvas.width / 2, 875);
+
+        return new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
     }
 
     async function downloadQrPoster() {
         const card = document.getElementById('paymentCard');
         if (!card) return;
 
-        showAppMessage("Studio Payment Poster ପ୍ରସ୍ତୁତ ହେଉଛି...", "info", "Please Wait");
+        showAppMessage("Studio Payment Poster à¬ªà­à¬°à¬¸à­à¬¤à­à¬¤ à¬¹à­‡à¬‰à¬›à¬¿...", "info", "Please Wait");
 
         try {
-            if (typeof PHOENIX_FULL_LOGO_DATA !== 'undefined') {
-                const logoEl = document.getElementById('cardMerchantFullLogo');
-                if (logoEl) logoEl.src = PHOENIX_FULL_LOGO_DATA;
-            }
-            if (typeof PHOENIX_LOGO_DATA !== 'undefined') {
-                const sigEl = document.getElementById('cardQrSignatureLogo');
-                if (sigEl) sigEl.src = PHOENIX_LOGO_DATA;
-            }
+            let blob = null;
 
-            const canvas = document.getElementById('qrCanvas');
-            const img = document.getElementById('finalQrImage');
-            if (canvas && img) {
-                try {
-                    img.src = canvas.toDataURL('image/png');
-                    img.style.display = 'block';
-                    canvas.style.display = 'none';
-                } catch(e) {}
-            }
-
-            if (document.fonts && document.fonts.ready) {
-                await document.fonts.ready;
-            }
-
-            let posterCanvas = null;
             if (window.html2canvas) {
-                posterCanvas = await window.html2canvas(card, {
-                    scale: 2,
-                    useCORS: true,
-                    allowTaint: true,
-                    backgroundColor: '#110e0c',
-                    logging: false
-                });
+                try {
+                    const canvas = document.getElementById('qrCanvas');
+                    const img = document.getElementById('finalQrImage');
+                    if (canvas && img) {
+                        img.src = canvas.toDataURL('image/png');
+                        img.style.display = 'block';
+                        canvas.style.display = 'none';
+                    }
+
+                    if (document.fonts && document.fonts.ready) {
+                        await document.fonts.ready;
+                    }
+
+                    const posterCanvas = await window.html2canvas(card, {
+                        scale: 2,
+                        useCORS: true,
+                        allowTaint: true,
+                        backgroundColor: '#110e0c',
+                        logging: false
+                    });
+
+                    if (posterCanvas) {
+                        blob = await new Promise(res => posterCanvas.toBlob(res, 'image/png'));
+                    }
+                } catch(e) {
+                    console.warn("html2canvas error, using direct canvas fallback:", e);
+                }
             }
 
-            if (!posterCanvas) {
-                throw new Error("Canvas render failed");
+            if (!blob) {
+                blob = await createDirectSlateCanvas();
             }
 
-            const dataUrl = posterCanvas.toDataURL('image/png');
-            const link = document.createElement('a');
-            link.download = `Phoenix_Payment_Slate_${Date.now()}.png`;
-            link.href = dataUrl;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            if (!blob) throw new Error("Could not create poster image");
 
-            showAppMessage("Payment Slate Poster ସଫଳତାର ସହ Download ହେଲା!", "success", "Slate Downloaded");
+            triggerBlobDownload(blob, `Phoenix_Payment_Slate_${Date.now()}.png`);
+            showAppMessage("Payment Slate Poster à¬¸à¬«à¬³à¬¤à¬¾à¬° à¬¸à¬¹ Download à¬¹à­‡à¬²à¬¾!", "success", "Slate Downloaded");
         } catch (err) {
             console.error('Download slate error:', err);
-            showAppMessage("Slate Download ତ୍ରୁଟି: " + err.message, "error", "ତ୍ରୁଟି");
+            showAppMessage("Slate Download à¬¤à­à¬°à­à¬Ÿà¬¿: " + err.message, "error", "à¬¤à­à¬°à­à¬Ÿà¬¿");
         }
     }
 
@@ -6029,23 +6198,56 @@
         const noteVal = document.getElementById('qrNoteInput') ? document.getElementById('qrNoteInput').value.trim() : '';
 
         const numAmt = parseFloat(amtVal);
-        const amountStr = (!isNaN(numAmt) && numAmt > 0) ? `₹${numAmt.toLocaleString('en-IN')}` : 'Any Amount';
-        const noteLine = noteVal ? `\n❖ Note: ${noteVal}` : '';
+        const amountStr = (!isNaN(numAmt) && numAmt > 0) ? `â‚¹${numAmt.toLocaleString('en-IN')}` : 'Any Amount';
+        const noteLine = noteVal ? `\nâ– Note: ${noteVal}` : '';
 
-        const shareText = `❖ Studio: Phoenix Edit Point\n❖ UPI ID: ${upi}\n❖ Amount: ${amountStr}${noteLine}\n\nScan QR or pay directly via UPI.`;
+        const shareText = `â– Studio: Phoenix Edit Point\nâ– UPI ID: ${upi}\nâ– Amount: ${amountStr}${noteLine}\n\nScan QR or pay directly via UPI.`;
 
-        if (navigator.share) {
-            try {
+        showAppMessage("Photo à¬ªà­à¬°à¬¸à­à¬¤à­à¬¤ à¬¹à­‡à¬‰à¬›à¬¿ (Preparing QR Photo)...", "info", "Please Wait");
+
+        try {
+            // Generate photo blob (either QR code or Slate poster)
+            let photoBlob = null;
+            const qrCanvas = document.getElementById('qrCanvas');
+            if (qrCanvas) {
+                photoBlob = await new Promise(res => qrCanvas.toBlob(res, 'image/png'));
+            }
+            if (!photoBlob) {
+                photoBlob = await createDirectSlateCanvas();
+            }
+
+            if (photoBlob) {
+                const photoFile = new File([photoBlob], `Phoenix_Payment_QR_${Date.now()}.png`, { type: 'image/png' });
+                
+                // If Web Share API supports file sharing, send PHOTO + TEXT together!
+                if (navigator.canShare && navigator.canShare({ files: [photoFile] })) {
+                    closeAppMessage();
+                    await navigator.share({
+                        title: 'Phoenix Edit Point Payment QR',
+                        text: shareText,
+                        files: [photoFile]
+                    });
+                    return;
+                }
+            }
+
+            // Fallback for browsers that only support text sharing
+            if (navigator.share) {
+                closeAppMessage();
                 await navigator.share({
                     title: 'Phoenix Edit Point Payment',
                     text: shareText
                 });
                 return;
-            } catch (e) {
-                if (e.name === 'AbortError') return;
             }
+        } catch (e) {
+            closeAppMessage();
+            if (e.name === 'AbortError') return;
+            console.warn("Share API issue:", e);
         }
 
+        // WhatsApp Web / URL fallback
+        closeAppMessage();
         const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
         window.open(waUrl, '_blank');
     }
