@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Phoenix Edit Point - Connect to Internet</title>
+    <link rel="icon" type="image/png" href="Phoenix-ICON.png">
+    <script src="full_logo_data.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at center, #0e1726 0%, #030712 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            color: #ffffff;
+            overflow: hidden;
+        }
+
+        .offline-modal-card {
+            position: relative;
+            width: 100%;
+            max-width: 430px;
+            background: linear-gradient(145deg, #111827 0%, #0b0f19 100%);
+            border: 1.5px solid #38bdf8;
+            border-radius: 18px;
+            padding: 32px 26px 26px;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 35px rgba(56, 189, 248, 0.25);
+            animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.96);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 14px;
+            right: 18px;
+            color: #94a3b8;
+            font-size: 26px;
+            cursor: pointer;
+            font-weight: bold;
+            line-height: 1;
+            transition: color 0.2s;
+            user-select: none;
+        }
+
+        .close-btn:hover {
+            color: #ffffff;
+        }
+
+        .logo-wrap {
+            text-align: center;
+            margin-bottom: 18px;
+        }
+
+        .brand-logo {
+            max-width: 220px;
+            width: 100%;
+            height: auto;
+            max-height: 70px;
+            object-fit: contain;
+            margin: 0 auto;
+            display: block;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.8));
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.45);
+            padding: 6px 16px;
+            border-radius: 20px;
+            margin-bottom: 16px;
+            color: #f87171;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+        }
+
+        .status-badge svg {
+            animation: wifiPulse 2s infinite ease-in-out;
+        }
+
+        @keyframes wifiPulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .title {
+            color: #ffffff;
+            margin: 0 0 10px;
+            font-size: 21px;
+            font-weight: 800;
+            letter-spacing: 0.3px;
+        }
+
+        .desc {
+            color: #94a3b8;
+            font-size: 13.5px;
+            line-height: 1.6;
+            margin: 0 0 22px;
+        }
+
+        .btn-retry {
+            width: 100%;
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            border: 1px solid #38bdf8;
+            color: #ffffff;
+            border-radius: 9px;
+            padding: 13px 18px;
+            font-size: 14.5px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            box-shadow: 0 4px 16px rgba(2, 132, 199, 0.45);
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .btn-retry:hover {
+            background: #0ea5e9;
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(14, 165, 233, 0.6);
+        }
+
+        .btn-retry:active {
+            transform: scale(0.98);
+        }
+
+        .status-msg {
+            margin-top: 14px;
+            font-size: 12px;
+            min-height: 18px;
+            color: #94a3b8;
+            transition: color 0.2s;
+        }
+
+        .spin {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-modal-card">
+        <!-- Close Button (Upper Right) -->
+        <span class="close-btn" onclick="retryConnection()" title="Retry / Close">&times;</span>
+
+        <!-- Phoenix Edit Point Logo -->
+        <div class="logo-wrap">
+            <img class="brand-logo" id="brandLogo" src="PhoenixLOGO-full-v2.png" alt="Phoenix Edit Point"
+                onerror="if(typeof PHOENIX_FULL_LOGO_DATA!=='undefined'){this.src=PHOENIX_FULL_LOGO_DATA;}else{this.src='PhoenixLOGO.png';}">
+        </div>
+
+        <!-- Disconnected Badge -->
+        <div class="status-badge">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="1" y1="1" x2="23" y2="23"></line>
+                <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"></path>
+                <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"></path>
+                <path d="M10.71 5.05A16 16 0 0 1 22.58 9"></path>
+                <path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"></path>
+                <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+                <line x1="12" y1="20" x2="12.01" y2="20"></line>
+            </svg>
+            No Internet Connection
+        </div>
+
+        <h2 class="title">Please Connect Your Internet</h2>
+
+        <p class="desc">
+            Aap offline hain! Phoenix Edit Point use karne aur data sync karne ke liye kripya apna <b>Wi-Fi ya Mobile Data on karein</b>.
+        </p>
+
+        <!-- Retry Button -->
+        <button type="button" class="btn-retry" id="btnRetry" onclick="retryConnection()">
+            <svg id="retryIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+            </svg>
+            <span id="retryBtnText">Retry Connection</span>
+        </button>
+
+        <div class="status-msg" id="statusMsg">Checking network status automatically...</div>
+    </div>
+
+    <script>
+        const LIVE_APP_URL = 'https://jyotiprakashmohapatra63-creator.github.io/Phoenix-Edit-Point-HTML/';
+        let isConnecting = false;
+
+        function updateStatus(text, color) {
+            const el = document.getElementById('statusMsg');
+            if (el) {
+                el.textContent = text;
+                el.style.color = color || '#94a3b8';
+            }
+        }
+
+        function redirectToLiveApp() {
+            updateStatus('Internet Connected! Opening Phoenix Edit Point...', '#22c55e');
+            setTimeout(() => {
+                window.location.replace(LIVE_APP_URL + '?t=' + Date.now());
+            }, 600);
+        }
+
+        function retryConnection() {
+            if (isConnecting) return;
+            isConnecting = true;
+
+            const icon = document.getElementById('retryIcon');
+            const btn = document.getElementById('btnRetry');
+            const btnText = document.getElementById('retryBtnText');
+
+            if (icon) icon.classList.add('spin');
+            if (btnText) btnText.textContent = 'Connecting...';
+            updateStatus('Checking internet connection...', '#38bdf8');
+
+            if (!navigator.onLine) {
+                setTimeout(() => {
+                    if (icon) icon.classList.remove('spin');
+                    if (btnText) btnText.textContent = 'Retry Connection';
+                    updateStatus('Still offline! Please turn on Wi-Fi or Mobile Data.', '#ef4444');
+                    isConnecting = false;
+                }, 500);
+                return;
+            }
+
+            // Test connectivity with quick fetch
+            fetch(LIVE_APP_URL + 'manifest.webmanifest?t=' + Date.now(), { method: 'HEAD', cache: 'no-store' })
+                .then(res => {
+                    redirectToLiveApp();
+                })
+                .catch(() => {
+                    // Fallback to favicon / google check
+                    fetch('https://www.google.com/favicon.ico?' + Date.now(), { mode: 'no-cors', cache: 'no-store' })
+                        .then(() => redirectToLiveApp())
+                        .catch(() => {
+                            if (icon) icon.classList.remove('spin');
+                            if (btnText) btnText.textContent = 'Retry Connection';
+                            updateStatus('Internet still not reachable. Check your data connection.', '#ef4444');
+                            isConnecting = false;
+                        });
+                });
+        }
+
+        // Auto-detect when internet turns back on
+        window.addEventListener('online', () => {
+            retryConnection();
+        });
+
+        // Periodic background poll every 2.5 seconds to auto-reconnect
+        setInterval(() => {
+            if (navigator.onLine && !isConnecting) {
+                retryConnection();
+            }
+        }, 2500);
+    </script>
+</body>
+</html>
