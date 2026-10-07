@@ -5,6 +5,7 @@
   "bundledWebRuntime": false,
   "server": {
     "url": "https://jyotiprakashmohapatra63-creator.github.io/Phoenix-Edit-Point-HTML/",
-    "androidScheme": "https"
+    "androidScheme": "https",
+    "errorPath": "offline.html"
   }
 }
